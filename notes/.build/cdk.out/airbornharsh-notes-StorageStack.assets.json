@@ -1,0 +1,20 @@
+{
+  "version": "18.0.0",
+  "files": {
+    "e157c021dab615c6f00fe4f8344ce80366b1690858ed54a116d7895b367a1cfc": {
+      "source": {
+        "path": "airbornharsh-notes-StorageStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "339161333447-ap-south-1": {
+          "bucketName": "cdk-hnb659fds-assets-339161333447-ap-south-1",
+          "objectKey": "e157c021dab615c6f00fe4f8344ce80366b1690858ed54a116d7895b367a1cfc.json",
+          "region": "ap-south-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::339161333447:role/cdk-hnb659fds-file-publishing-role-339161333447-ap-south-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

@@ -1,0 +1,98 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
+/** Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved. */
+"use strict";
+import * as fs from "fs";
+import * as util from "util";
+const levels = Object.freeze({
+    INFO: { name: "INFO" },
+    DEBUG: { name: "DEBUG" },
+    WARN: { name: "WARN" },
+    ERROR: { name: "ERROR" },
+    TRACE: { name: "TRACE" },
+    FATAL: { name: "FATAL" },
+});
+/* Use a unique symbol to provide global access without risk of name clashes. */
+const REQUEST_ID_SYMBOL = Symbol.for("aws.lambda.runtime.requestId");
+const _currentRequestId = {
+    get: () => global[REQUEST_ID_SYMBOL],
+    set: (id) => (global[REQUEST_ID_SYMBOL] = id),
+};
+/**
+ * Write logs to stdout.
+ */
+const _logToStdout = (level, message) => {
+    const time = new Date().toISOString();
+    const requestId = _currentRequestId.get();
+    let line = `${time}\t${requestId}\t${level.name}\t${message}`;
+    line = line.replace(/\n/g, "\r");
+    process.stdout.write(line + "\n");
+};
+/**
+ * Write logs to filedescriptor.
+ * Implements the logging contract between runtimes and the platform.
+ * Each entry is framed as:
+ *    +----------------------+------------------------+-----------------------+
+ *    | Frame Type - 4 bytes | Length (len) - 4 bytes | Message - 'len' bytes |
+ *    +----------------------+------------------------+-----------------------+
+ * The frist 4 bytes are the frame type. For logs this is always 0xa55a0001.
+ * The second 4 bytes are the length of the message.
+ * The remaining bytes ar ethe message itself. Byte order is big-endian.
+ */
+const _logToFd = function (logTarget) {
+    const typeAndLength = Buffer.alloc(8);
+    typeAndLength.writeUInt32BE(0xa55a0001, 0);
+    typeAndLength.writeUInt32BE(0x00000000, 4);
+    return (level, message) => {
+        const time = new Date().toISOString();
+        const requestId = _currentRequestId.get();
+        const enrichedMessage = `${time}\t${requestId}\t${level.name}\t${message}\n`;
+        const messageBytes = Buffer.from(enrichedMessage, "utf8");
+        typeAndLength.writeInt32BE(messageBytes.length, 4);
+        fs.writeSync(logTarget, typeAndLength);
+        fs.writeSync(logTarget, messageBytes);
+    };
+};
+/**
+ * Replace console functions with a log function.
+ * @param {Function(level, String)} log
+ */
+function _patchConsoleWith(log) {
+    console.log = (msg, ...params) => {
+        log(levels.INFO, util.format(msg, ...params));
+    };
+    console.debug = (msg, ...params) => {
+        log(levels.DEBUG, util.format(msg, ...params));
+    };
+    console.info = (msg, ...params) => {
+        log(levels.INFO, util.format(msg, ...params));
+    };
+    console.warn = (msg, ...params) => {
+        log(levels.WARN, util.format(msg, ...params));
+    };
+    console.error = (msg, ...params) => {
+        log(levels.ERROR, util.format(msg, ...params));
+    };
+    console.trace = (msg, ...params) => {
+        log(levels.TRACE, util.format(msg, ...params));
+    };
+    console.fatal = (msg, ...params) => {
+        log(levels.FATAL, util.format(msg, ...params));
+    };
+}
+const _patchConsole = () => {
+    if (process.env["_LAMBDA_TELEMETRY_LOG_FD"] != null &&
+        process.env["_LAMBDA_TELEMETRY_LOG_FD"] != undefined) {
+        const logFd = parseInt(process.env["_LAMBDA_TELEMETRY_LOG_FD"]);
+        _patchConsoleWith(_logToFd(logFd));
+        delete process.env["_LAMBDA_TELEMETRY_LOG_FD"];
+    }
+    else {
+        _patchConsoleWith(_logToStdout);
+    }
+};
+export default {
+    setCurrentRequestId: _currentRequestId.set,
+    patchConsole: _patchConsole,
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTG9nUGF0Y2guanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvdXRpbHMvTG9nUGF0Y2gudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsdURBQXVEO0FBQ3ZELCtCQUErQjtBQUMvQiw4RUFBOEU7QUFFOUUsWUFBWSxDQUFDO0FBRWIsT0FBTyxLQUFLLEVBQUUsTUFBTSxJQUFJLENBQUM7QUFDekIsT0FBTyxLQUFLLElBQUksTUFBTSxNQUFNLENBQUM7QUFFN0IsTUFBTSxNQUFNLEdBQUcsTUFBTSxDQUFDLE1BQU0sQ0FBQztJQUMzQixJQUFJLEVBQUUsRUFBRSxJQUFJLEVBQUUsTUFBTSxFQUFFO0lBQ3RCLEtBQUssRUFBRSxFQUFFLElBQUksRUFBRSxPQUFPLEVBQUU7SUFDeEIsSUFBSSxFQUFFLEVBQUUsSUFBSSxFQUFFLE1BQU0sRUFBRTtJQUN0QixLQUFLLEVBQUUsRUFBRSxJQUFJLEVBQUUsT0FBTyxFQUFFO0lBQ3hCLEtBQUssRUFBRSxFQUFFLElBQUksRUFBRSxPQUFPLEVBQUU7SUFDeEIsS0FBSyxFQUFFLEVBQUUsSUFBSSxFQUFFLE9BQU8sRUFBRTtDQUN6QixDQUFDLENBQUM7QUFFSCxnRkFBZ0Y7QUFDaEYsTUFBTSxpQkFBaUIsR0FBRyxNQUFNLENBQUMsR0FBRyxDQUFDLDhCQUE4QixDQUFDLENBQUM7QUFDckUsTUFBTSxpQkFBaUIsR0FBRztJQUN4QixHQUFHLEVBQUUsR0FBRyxFQUFFLENBQUUsTUFBYyxDQUFDLGlCQUFpQixDQUFDO0lBQzdDLEdBQUcsRUFBRSxDQUFDLEVBQU8sRUFBRSxFQUFFLENBQUMsQ0FBRSxNQUFjLENBQUMsaUJBQWlCLENBQUMsR0FBRyxFQUFFLENBQUM7Q0FDNUQsQ0FBQztBQUVGOztHQUVHO0FBQ0gsTUFBTSxZQUFZLEdBQUcsQ0FBQyxLQUFVLEVBQUUsT0FBWSxFQUFFLEVBQUU7SUFDaEQsTUFBTSxJQUFJLEdBQUcsSUFBSSxJQUFJLEVBQUUsQ0FBQyxXQUFXLEVBQUUsQ0FB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
