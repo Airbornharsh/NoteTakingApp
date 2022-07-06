@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../services/functions/lambda.js"],
-  "sourcesContent": ["export const handler = async (event) => {\n  return {\n    statusCode: 200,\n    headers: { \"Content-Type\": \"text/plain\" },\n    body: `Hello, World! Your request was received at ${event.requestContext.time}.`,\n  };\n};\n"],
-  "mappings": ";;;AAAO,IAAM,UAAU,OAAO,UAAU;AACtC,SAAO;AAAA,IACL,YAAY;AAAA,IACZ,SAAS,EAAE,gBAAgB,aAAa;AAAA,IACxC,MAAM,8CAA8C,MAAM,eAAe;AAAA,EAC3E;AACF;",
-  "names": []
-}
