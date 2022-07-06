@@ -1,3 +1,5 @@
+import { ApiStack } from "./ApiStack";
+import { AuthStack } from "./AuthStack";
 import { StorageStack } from "./StorageStack";
 
 export default function main(app) {
@@ -8,5 +10,5 @@ export default function main(app) {
       format: "esm",
     },
   });
-  app.stack(StorageStack);
+  app.stack(StorageStack).stack(ApiStack).stack(AuthStack);
 }

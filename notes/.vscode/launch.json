@@ -1,14 +1,35 @@
 {
   "version": "0.2.0",
   "configurations": [
+    
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "notes:stacks/index.main (nodejs16.x)",
+      "invokeTarget": {
+        "target": "code",
+        "projectRoot": "${workspaceFolder}/",
+        "lambdaHandler": "stacks/index.main"
+      },
+      "lambda": {
+        "runtime": "nodejs16.x",
+        "payload": {},
+        "environmentVariables": {}
+      }
+    },
     {
       "name": "Debug SST Start",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/sst",
-      "runtimeArgs": ["start", "--increase-timeout"],
+      "runtimeArgs": [
+        "start",
+        "--increase-timeout"
+      ],
       "console": "integratedTerminal",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "env": {}
     }
   ]
