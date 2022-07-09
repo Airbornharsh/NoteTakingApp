@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+*::-webkit-scrollbar {
+  width: 0;
+}
+
 .rotation {
   animation: rotation 1s ease-in infinite;
 }

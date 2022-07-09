@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Auth } from "aws-amplify";
 import Context from "../Context/index";
@@ -14,6 +14,7 @@ const SignUp = () => {
   const [newUser, setNewUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const userCtx = useContext(Context).user;
+  const Navigate = useNavigate();
 
   const validateForm = () => {
     return (
@@ -50,6 +51,7 @@ const SignUp = () => {
       userCtx.isLogged(true);
       userCtx.isLogging(false);
       setIsLoading(false);
+      Navigate("/");
     } catch (e) {
       alert(e);
       setIsLoading(false);
@@ -94,7 +96,7 @@ const SignUp = () => {
                 ""
               )}
               <button
-                className=" px-2 py-1"
+                className="px-2 py-1 "
                 disabled={!validateConfirmationForm()}
               >
                 Verify
@@ -196,7 +198,7 @@ const SignUp = () => {
               ) : (
                 ""
               )}
-              <button className=" px-2 py-1" disabled={!validateForm()}>
+              <button className="px-2 py-1 " disabled={!validateForm()}>
                 Sign Up
               </button>
             </span>

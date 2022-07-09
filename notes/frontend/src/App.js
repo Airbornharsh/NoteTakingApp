@@ -6,9 +6,12 @@ import SignIn from "./Pages/SignIn";
 import { useContext, useEffect } from "react";
 import Context from "./Context/index";
 import { Auth } from "aws-amplify";
+import NewNote from "./Pages/NewNote";
+import NoteDisplay from "./Pages/NoteDisplay";
 
 function App() {
   const UserCtx = useContext(Context).user;
+  const NoteCtx = useContext(Context).note;
   const Navigate = useNavigate();
 
   const onLoad = async () => {
@@ -28,11 +31,16 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div>
       {/* {!UserCtx.isLogging ? <Navbar /> : ""} */}
-      <div className="h-[calc(100vh-3rem)] w-screen ">
+      <div className="h-[calc(100vh)] w-screen bg-zinc-200 ">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/notes/new" element={<NewNote />} />
+          <Route
+            path={`/notes/:${NoteCtx.id}`}
+            element={NoteCtx.id ? <NoteDisplay /> : ""}
+          />
           <Route
             path="/signup"
             element={
@@ -45,7 +53,7 @@ function App() {
               !UserCtx.isLogged ? <SignIn /> : <div>Already Logined</div>
             }
           />
-          <Route path="*" element={<div>404 Not Found</div>} />
+          {/* <Route path="*" element={<div>404 Not Found</div>} /> */}
         </Routes>
       </div>
     </div>

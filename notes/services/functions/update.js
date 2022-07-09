@@ -10,10 +10,12 @@ export const main = handler(async (event) => {
       userId: event.requestContext.authorizer.iam.cognitoIdentity.identityId,
       noteId: event.pathParameters.id,
     },
-    UpdateExpression: "SET content = :content,attachment = :attachment",
+    UpdateExpression:
+      "SET heading = :heading,content = :content,attachment = :attachment",
     ExpressionAttributeValues: {
       ":attachment": data.attachment || null,
       ":content": data.content || null,
+      ":heading": data.heading || null,
     },
     ReturnValues: "ALL_NEW",
   };

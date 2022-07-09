@@ -7,6 +7,10 @@ const Context = createContext({
     isLogging: false,
     setIsLogging: () => {},
   },
+  note: {
+    id: "",
+    setId: () => {},
+  },
 });
 
 export default Context;

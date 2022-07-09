@@ -9,6 +9,7 @@ export const main = handler(async (event) => {
     Item: {
       userId: event.requestContext.authorizer.iam.cognitoIdentity.identityId,
       noteId: uuid.v1(),
+      heading: data.heading,
       content: data.content,
       attachment: data.attachment,
       createdAt: Date.now(),

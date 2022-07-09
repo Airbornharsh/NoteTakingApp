@@ -12,6 +12,7 @@ const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   // const [isValid, setIsValid] = useState(false);
   // const activeButton = "fuchsia-600";
+
   // const inactiveButton = "fuchsia-500";
   // const [buttonColor, setButtonColor] = useState(inactiveButton);
   const UserCtx = useContext(Context).user;
@@ -31,6 +32,7 @@ const SignIn = () => {
       Navigate("/");
       alert("Logged In");
     } catch (e) {
+      setIsLoading(false);
       setAlert(e.message);
       alert(e.message);
     }
@@ -90,7 +92,7 @@ const SignIn = () => {
             ) : (
               ""
             )}
-            <button className=" px-2 py-1" disabled={!validateForm()}>
+            <button className="px-2 py-1 " disabled={!validateForm()}>
               Sign In
             </button>
           </span>
