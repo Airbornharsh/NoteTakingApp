@@ -124,7 +124,7 @@ const NewNote = () => {
         onClick={exitFn}
       >
         <MdArrowBackIosNew />
-        <p className="pb-[0.1rem]">Back</p>
+        <p className="pb-[0.1rem] pr-[0.4em]">Back</p>
       </span>
     </div>
   );

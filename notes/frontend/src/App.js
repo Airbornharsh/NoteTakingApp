@@ -8,6 +8,8 @@ import Context from "./Context/index";
 import { Auth } from "aws-amplify";
 import NewNote from "./Pages/NewNote";
 import NoteDisplay from "./Pages/NoteDisplay";
+import Settings from "./Pages/Settings";
+import BillingForm from "./Pages/BillingForm";
 
 function App() {
   const UserCtx = useContext(Context).user;
@@ -53,7 +55,9 @@ function App() {
               !UserCtx.isLogged ? <SignIn /> : <div>Already Logined</div>
             }
           />
-          {/* <Route path="*" element={<div>404 Not Found</div>} /> */}
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/settings/billingform" element={<BillingForm />} />
+          <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
       </div>
     </div>

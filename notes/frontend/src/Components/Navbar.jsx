@@ -1,6 +1,7 @@
 import { Auth } from "aws-amplify";
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { FiSettings } from "react-icons/fi";
 import Context from "../Context/index";
 
 const Navbar = () => {
@@ -24,46 +25,57 @@ const Navbar = () => {
     UserCtx.setIsLogging(true);
   };
 
+  const settingRender = () => {
+    Navigate("/settings");
+  };
+
   return (
     <nav className="flex justify-between w-screen px-4 py-2 h-12 bg-[#a431f2]">
       <span>
         <h1 className="text-[1.5rem] text-white">Scratch</h1>
       </span>
-      {UserCtx.isLogged ? (
-        <span>
-          {UserCtx.isLogging ? (
-            ""
-          ) : (
+      <span className="flex justify-center items-center">
+        {UserCtx.isLogged ? (
+          <span>
+            {UserCtx.isLogging ? (
+              ""
+            ) : (
+              <span>
+                <button
+                  onClick={LogOutFn}
+                  className="p-1 px-2 mx-4 text-black bg-white rounded"
+                >
+                  Log Out
+                </button>
+              </span>
+            )}
+          </span>
+        ) : (
+          <span>
             <span>
               <button
-                onClick={LogOutFn}
+                onClick={SignUpFn}
                 className="p-1 px-2 mx-4 text-black bg-white rounded"
               >
-                Log Out
+                Sign Up
               </button>
             </span>
-          )}
-        </span>
-      ) : (
-        <span>
-          <span>
-            <button
-              onClick={SignUpFn}
-              className="p-1 px-2 mx-4 text-black bg-white rounded"
-            >
-              Sign Up
-            </button>
+            <span>
+              <button
+                onClick={SignInFn}
+                className="p-1 px-2 text-black bg-white rounded"
+              >
+                Sign In
+              </button>
+            </span>
           </span>
-          <span>
-            <button
-              onClick={SignInFn}
-              className="p-1 px-2 text-black bg-white rounded"
-            >
-              Sign In
-            </button>
+        )}
+        {UserCtx.isLogged && (
+          <span onClick={settingRender} className="cursor-pointer">
+            <FiSettings size={"1.5rem"} color="white" />
           </span>
-        </span>
-      )}
+        )}
+      </span>
     </nav>
   );
 };

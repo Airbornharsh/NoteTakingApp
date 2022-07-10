@@ -10,10 +10,10 @@ export const main = handler(async (event) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
   await stripe.charges.create({
-    source,
-    amount,
-    description,
-    currency: "inr",
+    source: source,
+    amount: amount,
+    description: description,
+    currency: "usd",
     shipping: {
       name: "Harsh Keshri",
       address: {

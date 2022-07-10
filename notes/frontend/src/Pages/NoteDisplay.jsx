@@ -13,6 +13,7 @@ const NoteDisplay = () => {
   const [note, setNote] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isRunning, setIsRunning] = useState(true);
   const file = useRef();
   const noteCtx = useContext(Context).note;
   const Navigate = useNavigate();
@@ -30,11 +31,13 @@ const NoteDisplay = () => {
         if (attachment) {
           note.attachmentUrl = await Storage.vault.get(attachment);
         }
+        setIsRunning(false);
         setHeading(heading);
         setContent(content);
         setNote(note);
       } catch (e) {
         //   alert("notedisplay");
+        setIsRunning(false);
         alert(e);
       }
     };
@@ -205,6 +208,17 @@ const NoteDisplay = () => {
         <MdArrowBackIosNew />
         <p className="pb-[0.1rem]">Back</p>
       </span>
+      {isRunning && (
+        <div className="fixed top-0 left-0 h-[100vh] w-screen bg-[rgba(0,0,0,0.3)] z-30 flex justify-center items-center">
+          <span className="loader">
+            <AiOutlineLoading3Quarters
+              size="5rem"
+              color="rgba(0,0,0,0.7)"
+              className="ml-2 rotation"
+            />
+          </span>
+        </div>
+      )}
     </div>
   );
 };

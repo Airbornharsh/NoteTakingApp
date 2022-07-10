@@ -1,13 +1,14 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import Context from "../Context/index";
 import Navbar from "../Components/Navbar";
 import Note from "../Components/Home/Note";
 import { useNavigate } from "react-router-dom";
 import { API } from "aws-amplify";
-import { useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Home = () => {
   const [notes, setNotes] = useState([]);
+  const [isRunning, setIsRunning] = useState(true);
   const UserCtx = useContext(Context).user;
   const Navigate = useNavigate();
 
@@ -25,8 +26,11 @@ const Home = () => {
 
       try {
         const notes = await loadNotes();
+        setIsRunning(false);
         setNotes(notes);
       } catch (e) {
+        console.log("list");
+        setIsRunning(false);
         alert(e);
       }
     };
@@ -70,6 +74,17 @@ const Home = () => {
         </div>
       ) : (
         ""
+      )}
+      {isRunning && (
+        <div className="fixed top-0 left-0 h-[100vh] w-screen bg-[rgba(0,0,0,0.3)] z-30 flex justify-center items-center">
+          <span className="loader">
+            <AiOutlineLoading3Quarters
+              size="5rem"
+              color="rgba(0,0,0,0.7)"
+              className="ml-2 rotation"
+            />
+          </span>
+        </div>
       )}
     </Fragment>
   );
