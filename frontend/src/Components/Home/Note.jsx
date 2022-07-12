@@ -1,16 +1,14 @@
 import React, { useContext } from "react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Context from "../../Context";
 
 const Note = (props) => {
-  const [noteId, setNoteId] = useState(props.id);
   const NoteCtx = useContext(Context).note;
   const Navigate = useNavigate();
 
   const RenderNote = () => {
-    NoteCtx.setId(noteId);
-    Navigate(`/notes/${noteId}`);
+    NoteCtx.setId(props.id);
+    Navigate(`/notes/${props.id}`);
   };
 
   return (
