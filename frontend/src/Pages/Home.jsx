@@ -21,6 +21,7 @@ const Home = () => {
   useEffect(() => {
     const onLoad = async () => {
       if (!UserCtx.isLogged) {
+        setIsRunning(false);
         return;
       }
 

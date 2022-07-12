@@ -34,7 +34,7 @@ const Navbar = () => {
       <span>
         <h1 className="text-[1.5rem] text-white">Scratch</h1>
       </span>
-      <span className="flex justify-center items-center">
+      <span className="flex items-center justify-center">
         {UserCtx.isLogged ? (
           <span>
             {UserCtx.isLogging ? (
