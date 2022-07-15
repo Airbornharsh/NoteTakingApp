@@ -11,9 +11,16 @@ const Note = (props) => {
     Navigate(`/notes/${props.id}`);
   };
 
+  const DragStart = (event) => {
+    event.dataTransfer.setData("noteId", `${event.target.id}`);
+  };
+
   return (
     <li
       onClick={RenderNote}
+      draggable="true"
+      id={props.id}
+      onDragStart={DragStart}
       className="w-[16rem] h-[12rem] mr-4 p-2 rounded mb-4 bg-[#a134eb] text-white overflow-hidden relative"
     >
       <h3 className="mb-2 font-semibold">{props.heading}</h3>
