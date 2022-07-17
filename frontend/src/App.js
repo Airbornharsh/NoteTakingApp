@@ -10,6 +10,7 @@ import NewNote from "./Pages/NewNote";
 import NoteDisplay from "./Pages/NoteDisplay";
 import Settings from "./Pages/Settings";
 import BillingForm from "./Pages/BillingForm";
+import ForgotPassword from "./Pages/ForgotPassword";
 
 function App() {
   const UserCtx = useContext(Context).user;
@@ -30,7 +31,7 @@ function App() {
 
   useEffect(() => {
     onLoad();
-  },[]);
+  }, []);
 
   return (
     <div>
@@ -57,6 +58,7 @@ function App() {
           />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/billingform" element={<BillingForm />} />
+          <Route path="/user/reset/password" element={<ForgotPassword />} />
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
       </div>

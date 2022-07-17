@@ -10,7 +10,7 @@ export function AuthStack({ stack, app }) {
   const auth = new Auth(stack, "Auth", {
     login: ["email"],
   });
-    
+
   auth.attachPermissionsForAuthUsers([
     api,
     new iam.PolicyStatement({

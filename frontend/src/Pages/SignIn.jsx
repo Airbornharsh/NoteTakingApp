@@ -96,6 +96,14 @@ const SignIn = () => {
               Sign In
             </button>
           </span>
+
+          <p className="text-black text-[0.7rem] pt-2">
+            <Link to="/user/reset/password" className="text-blue-500">
+              {" "}
+              Forgotten Your Password
+            </Link>
+          </p>
+
           <p className="text-black text-[0.7rem] pt-2">
             I Don't Have a Account!
             <Link to="/signup" className="text-blue-500">

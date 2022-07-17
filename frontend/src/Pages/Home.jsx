@@ -90,6 +90,16 @@ const Home = () => {
     }
   };
 
+  const SignUpFn = () => {
+    Navigate("/signup");
+    UserCtx.setIsLogging(true);
+  };
+
+  const SignInFn = () => {
+    Navigate("/signin");
+    UserCtx.setIsLogging(true);
+  };
+
   return (
     <Fragment>
       <div>{!UserCtx.isLogging ? <Navbar /> : ""}</div>
@@ -131,7 +141,27 @@ const Home = () => {
           </ul>
         </div>
       ) : (
-        ""
+        <div className="flex items-center justify-center w-screen h-[80vh] flex-col">
+          <h1 className="text-[4rem] font-semibold">Say Yes To Not</h1>
+          <span className="m-4">
+            <span>
+              <button
+                onClick={SignUpFn}
+                className="p-2 px-3 mx-4 font-[1.5rem] text-white bg-[#a431f2] rounded"
+              >
+                Sign Up
+              </button>
+            </span>
+            <span>
+              <button
+                onClick={SignInFn}
+                className="p-2 px-3 font-[1.5rem] text-white bg-[#a431f2] rounded"
+              >
+                Sign In
+              </button>
+            </span>
+          </span>
+        </div>
       )}
       {isRunning && (
         <div className="fixed top-0 left-0 h-[100vh] w-screen bg-[rgba(0,0,0,0.3)] z-30 flex justify-center items-center">
