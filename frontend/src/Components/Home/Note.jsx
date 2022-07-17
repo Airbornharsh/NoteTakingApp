@@ -13,6 +13,7 @@ const Note = (props) => {
 
   const DragStart = (event) => {
     event.dataTransfer.setData("noteId", `${event.target.id}`);
+    event.dataTransfer.setData("noteAttachment", `${event.target.attachment}`);
   };
 
   return (
@@ -20,6 +21,7 @@ const Note = (props) => {
       onClick={RenderNote}
       draggable="true"
       id={props.id}
+      attachment={props.attachment}
       onDragStart={DragStart}
       className="w-[16rem] h-[12rem] mr-4 p-2 rounded mb-4 bg-[#a134eb] text-white overflow-hidden relative"
     >

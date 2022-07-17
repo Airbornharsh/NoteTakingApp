@@ -48,8 +48,8 @@ const SignUp = () => {
     try {
       await Auth.confirmSignUp(email, confirmationCode);
       await Auth.signIn(email, password);
-      userCtx.isLogged(true);
-      userCtx.isLogging(false);
+      userCtx.setIsLogged(true);
+      userCtx.setIsLogging(false);
       setIsLoading(false);
       Navigate("/");
     } catch (e) {

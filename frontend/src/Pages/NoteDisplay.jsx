@@ -184,7 +184,7 @@ const NoteDisplay = () => {
               ""
             )}
             <button className="px-2 py-1 " disabled={!validateForm()}>
-              Save
+              Update
             </button>
           </span>
           <span

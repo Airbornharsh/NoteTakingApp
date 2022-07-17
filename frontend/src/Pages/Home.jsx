@@ -11,6 +11,7 @@ const Home = () => {
   const [isRunning, setIsRunning] = useState(true);
   const [deleteColor, setDeleteColor] = useState("gray");
   const UserCtx = useContext(Context).user;
+  // const NoteCtx = useContext(Context).note;
   const Navigate = useNavigate();
 
   UserCtx.setIsLogging(false);
@@ -76,8 +77,11 @@ const Home = () => {
     deleteNoteDisplay(element);
 
     try {
+      const note = await API.get("notes", `/notes/${noteId}`);
+      const { attachment } = note;
       const response = await deleteNote(noteId);
-      // await Storage.remove(note.attachment, { level: "private" });
+      console.log(attachment);
+      await Storage.remove(attachment, { level: "private" });
       setDeleteColor("gray");
       console.log(response);
     } catch (e) {
