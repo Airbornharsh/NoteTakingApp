@@ -4,6 +4,7 @@ import { Auth } from "aws-amplify";
 import Context from "../Context";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import back from "./../utils/Images/background.jpg";
+import FacebookButton from "../Components/Signing/FacebookButton";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -46,6 +47,9 @@ const SignIn = () => {
           onSubmit={handleSubmit}
         >
           <ul>
+            <li className="flex flex-col mb-3">
+              <FacebookButton />
+            </li>
             <li className="flex flex-col">
               <label
                 htmlFor="email"

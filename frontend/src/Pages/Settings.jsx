@@ -11,7 +11,9 @@ const Settings = () => {
   };
 
   return (
-    <div className="h-[100vh]  w-screen flex items-center justify-center">
+    <div className="h-[100vh]  w-screen flex items-center justify-center flex-col">
+      <Link to={"/settings/update/email"}>Change Email</Link>
+      <Link to={"/settings/reset/password"}>Change Password</Link>
       <Link to={"/settings/billingform"}>Billing</Link>
       <span
         className="absolute bg-[#a134eb] top-2 left-2 flex items-center rounded p-1 text-white cursor-pointer"
