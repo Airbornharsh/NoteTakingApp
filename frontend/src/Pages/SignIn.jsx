@@ -5,6 +5,7 @@ import Context from "../Context";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import back from "./../utils/Images/background.jpg";
 import FacebookButton from "../Components/Signing/FacebookButton";
+import BackButton from "../Button/BackButton";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -122,6 +123,7 @@ const SignIn = () => {
         className="absolute top-0 left-0 w-screen h-[100vh] z-[-1] object-cover"
         alt="back"
       />
+      <BackButton to={"/"} />
     </div>
   );
 };

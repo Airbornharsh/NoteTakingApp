@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import back from "./../utils/Images/background.jpg";
+import BackButton from "../Button/BackButton";
 
 const ForgotPassword = () => {
   //Fields
@@ -12,9 +13,7 @@ const ForgotPassword = () => {
 
   //Rendering Helper
   const [isSendingCode, setIsSendingCode] = useState(true);
-  //   const [isSendCode, setIsSendCode] = useState(false);
   const [isPasswordChanging, setIsPasswordChanging] = useState(false);
-  //   const [isPasswordChanged, setIsPasswordChanged] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -207,6 +206,7 @@ const ForgotPassword = () => {
           )}
         </div>
       )}
+      <BackButton to={"/signin"} />
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { Auth } from "aws-amplify";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import back from "./../utils/Images/background.jpg";
 import { useNavigate } from "react-router-dom";
-import { MdArrowBackIosNew } from "react-icons/md";
+import BackButton from "../Button/BackButton";
 
 const ResetPassword = () => {
   const [oldPassword, setOldPassword] = useState("");
@@ -13,10 +13,6 @@ const ResetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const Navigate = useNavigate();
-
-  const exitFn = () => {
-    Navigate("/settings");
-  };
 
   const validatePasswordForm = () => {
     return (
@@ -133,13 +129,7 @@ const ResetPassword = () => {
         className="absolute top-0 left-0 w-screen h-[100vh] z-[-1] object-cover"
         alt="back"
       />
-      <span
-        className="absolute bg-[#a134eb] top-2 left-2 flex items-center rounded p-1 text-white cursor-pointer"
-        onClick={exitFn}
-      >
-        <MdArrowBackIosNew />
-        <p className="pb-[0.1rem] pr-[0.4em]">Back</p>
-      </span>
+      <BackButton to={"/settings"} />
     </div>
   );
 };

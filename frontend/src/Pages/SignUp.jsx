@@ -4,6 +4,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Auth } from "aws-amplify";
 import Context from "../Context/index";
 import back from "./../utils/Images/background.jpg";
+import BackButton from "../Button/BackButton";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -216,6 +217,7 @@ const SignUp = () => {
           className="absolute top-0 left-0 w-screen h-[100vh] z-[-1] object-cover"
           alt="back"
         />
+        <BackButton to={"/"} />
       </div>
     );
   };

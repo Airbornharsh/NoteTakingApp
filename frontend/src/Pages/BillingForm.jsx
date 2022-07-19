@@ -8,9 +8,9 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { MdArrowBackIosNew } from "react-icons/md";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import config from "../config";
+import BackButton from "../Button/BackButton";
 
 const stripePromise = loadStripe(`${config.STRIPE_KEY}`);
 
@@ -70,10 +70,6 @@ const Child = () => {
       console.log(e);
       setIsLoading(false);
     }
-  };
-
-  const exitFn = () => {
-    Navigate("/settings");
   };
 
   return (
@@ -142,13 +138,7 @@ const Child = () => {
           </span>
         </form>
       </div>
-      <span
-        className="absolute bg-[#a134eb] top-2 left-2 flex items-center rounded p-1 text-white cursor-pointer"
-        onClick={exitFn}
-      >
-        <MdArrowBackIosNew />
-        <p className="pb-[0.1rem] pr-[0.4em]">Back</p>
-      </span>
+      <BackButton to={"/settings"} />
       {isProcessing && (
         <div className="fixed top-0 left-0 h-[100vh] w-screen bg-[rgba(0,0,0,0.3)] z-30 flex justify-center items-center">
           <span className="loader">

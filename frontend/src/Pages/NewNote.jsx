@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { MdArrowBackIosNew } from "react-icons/md";
 import { API } from "aws-amplify";
 import s3Upload from "../lib/awsLib";
 import Config from "../utils/Config";
+import BackButton from "../Button/BackButton";
 
 const NewNote = () => {
   const [heading, setHeading] = useState("");
@@ -48,10 +48,6 @@ const NewNote = () => {
 
   const validateForm = () => {
     return heading.length > 0 && content.length > 0;
-  };
-
-  const exitFn = () => {
-    Navigate("/");
   };
 
   return (
@@ -119,13 +115,7 @@ const NewNote = () => {
           </span>
         </form>
       </div>
-      <span
-        className="absolute bg-[#a134eb] top-2 left-2 flex items-center rounded p-1 text-white cursor-pointer"
-        onClick={exitFn}
-      >
-        <MdArrowBackIosNew />
-        <p className="pb-[0.1rem] pr-[0.4em]">Back</p>
-      </span>
+      <BackButton to={"/"} />
     </div>
   );
 };
