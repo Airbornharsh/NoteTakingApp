@@ -6,6 +6,7 @@ import Config from "../utils/Config";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import s3Upload from "../lib/awsLib";
 import BackButton from "../Button/BackButton";
+import SubmittingButton from "../Button/SubmittingButton";
 
 const NoteDisplay = () => {
   const [heading, setHeading] = useState("");
@@ -171,18 +172,11 @@ const NoteDisplay = () => {
               />
             </li>
           </ul>
-          <span
-            className={`flex items-center justify-center font-bold text-white bg-[#a134eb] rounded`}
-          >
-            {isLoading ? (
-              <AiOutlineLoading3Quarters className="ml-2 rotation" />
-            ) : (
-              ""
-            )}
-            <button className="px-2 py-1 " disabled={!validateForm()}>
-              Update
-            </button>
-          </span>
+          <SubmittingButton
+            name="Update"
+            loader={isLoading}
+            validate={validateForm}
+          />
           <span
             className={`flex items-center justify-center font-bold text-white bg-gray-400 rounded mt-2 hover:bg-red-500`}
           >

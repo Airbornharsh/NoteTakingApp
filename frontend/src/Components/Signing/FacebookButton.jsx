@@ -8,10 +8,6 @@ const FacebookButton = () => {
 
   const UserCtx = useContext(Context).user;
 
-  const handleError = (error) => {
-    alert(error);
-  };
-
   // const waitForInit = () => {
   //   return new Promise((res, rej) => {
   //     const hasFbLoaded = () => {
@@ -29,8 +25,38 @@ const FacebookButton = () => {
   //   setIsLoading(false);
   // };
 
+  const handleError = (error) => {
+    console.log(error);
+  };
+
+  const handleFbLogin = () => {
+    UserCtx.setIsLogged(true);
+  };
+
+  const handleResponse = async (data) => {
+    const { email, accessToken, expiresIn } = data;
+    const expires_at = expiresIn * 1000000 + new Date().getTime();
+    const user = { email };
+
+    setIsLoading(true);
+
+    try {
+      const response = await Auth.federatedSignIn(
+        "facebook",
+        { token: accessToken, expires_at },
+        user
+      );
+      setIsLoading(false);
+      handleFbLogin(response);
+    } catch (e) {
+      setIsLoading(false);
+      handleError(e);
+    }
+  };
+
   const statusChangeCallback = (response) => {
     if (response.status === "connected") {
+      console.log(response);
       handleResponse(response.authResponse);
     } else {
       handleError(response);
@@ -43,31 +69,6 @@ const FacebookButton = () => {
 
   const handleClick = () => {
     window.FB.login(checkLoginState, { scope: "public_profile,email" });
-  };
-
-  const handleFbLogin = () => {
-    UserCtx.setIsLogged(true);
-  };
-
-  const handleResponse = async (data) => {
-    const { email, accessToken: token, expiresIn } = data;
-    const expires_at = expiresIn * 1000 + new Date().getTime();
-    const user = { email };
-
-    setIsLoading(true);
-
-    try {
-      const response = await Auth.federatedSignIn(
-        "facebook",
-        { token, expires_at },
-        user
-      );
-      setIsLoading(false);
-      handleFbLogin(response);
-    } catch (e) {
-      setIsLoading(false);
-      handleError(e);
-    }
   };
 
   return (

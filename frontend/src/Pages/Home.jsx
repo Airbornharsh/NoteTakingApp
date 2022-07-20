@@ -1,10 +1,13 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API } from "aws-amplify";
+// import "animate.css";
 import Context from "../Context/index";
 import Navbar from "../Components/Navbar";
 import Note from "../Components/Home/Note";
-import { useNavigate } from "react-router-dom";
-import { API } from "aws-amplify";
+import HomeBackground from "../utils/Videos/HomeBackground.mp4";
 import { AiOutlineLoading3Quarters, AiFillDelete } from "react-icons/ai";
+import { useRef } from "react";
 
 const Home = () => {
   const [notes, setNotes] = useState([]);
@@ -13,6 +16,8 @@ const Home = () => {
   const UserCtx = useContext(Context).user;
   // const NoteCtx = useContext(Context).note;
   const Navigate = useNavigate();
+
+  const video = useRef();
 
   UserCtx.setIsLogging(false);
 
@@ -32,13 +37,14 @@ const Home = () => {
         setIsRunning(false);
         setNotes(notes);
       } catch (e) {
-        console.log("list");
+        console.log(e);
         setIsRunning(false);
         alert(e);
       }
     };
 
     onLoad();
+    video.current.play();
   }, [UserCtx.isLogged]);
 
   const loadNotes = () => {
@@ -142,7 +148,9 @@ const Home = () => {
         </div>
       ) : (
         <div className="flex items-center justify-center w-screen h-[80vh] flex-col">
-          <h1 className="text-[4rem] font-semibold">Say Yes To Not</h1>
+          <h1 className="text-[4rem] font-semibold animate__bounce">
+            Say Yes To Not
+          </h1>
           <span className="m-4">
             <span>
               <button
@@ -161,6 +169,13 @@ const Home = () => {
               </button>
             </span>
           </span>
+          <video
+            ref={video}
+            className="h-[100vh] absolute left-0 top-0 w-[100vw] object-cover z-[-1]"
+            loop="true"
+          >
+            <source src={HomeBackground} type="video/mp4" />
+          </video>
         </div>
       )}
       {isRunning && (

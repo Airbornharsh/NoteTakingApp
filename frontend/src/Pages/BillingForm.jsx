@@ -8,6 +8,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import SubmittingButton from "../Button/SubmittingButton";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import config from "../config";
 import BackButton from "../Button/BackButton";
@@ -124,18 +125,11 @@ const Child = () => {
               />
             </li>
           </ul>
-          <span
-            className={`flex items-center justify-center font-bold text-white bg-[#a134eb] rounded`}
-          >
-            {isLoading ? (
-              <AiOutlineLoading3Quarters className="ml-2 rotation" />
-            ) : (
-              ""
-            )}
-            <button className="px-2 py-1 " disabled={!validateForm()}>
-              Submit
-            </button>
-          </span>
+          <SubmittingButton
+            name="Submit"
+            loader={isLoading}
+            validate={validateForm}
+          />
         </form>
       </div>
       <BackButton to={"/settings"} />

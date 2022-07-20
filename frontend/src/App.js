@@ -2,20 +2,23 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import Context from "./Context/index";
 import { Auth } from "aws-amplify";
+import back from "./utils/Images/background.jpg";
 import config from "./config";
 import { MdArrowBackIosNew } from "react-icons/md";
 
 //Pages
 import Home from "./Pages/Home";
-import SignUp from "./Pages/SignUp";
-import SignIn from "./Pages/SignIn";
 import NewNote from "./Pages/NewNote";
 import NoteDisplay from "./Pages/NoteDisplay";
 import Settings from "./Pages/Settings";
 import BillingForm from "./Pages/BillingForm";
-import ForgotPassword from "./Pages/ForgotPassword";
-import ResetPassword from "./Pages/ResetPassword";
-import ChangeEmail from "./Pages/ChangeEmail";
+
+//Account
+import ForgotPassword from "./Pages/Account/ForgotPassword";
+import ResetPassword from "./Pages/Account/ResetPassword";
+import ChangeEmail from "./Pages/Account/ChangeEmail";
+import SignUp from "./Pages/Account/SignUp";
+import SignIn from "./Pages/Account/SignIn";
 
 function App() {
   const UserCtx = useContext(Context).user;
@@ -32,6 +35,7 @@ function App() {
       UserCtx.setIsLogging(true);
       // }
     }
+    componentDidMount();
   };
 
   const loadFacebookSDK = () => {
@@ -64,9 +68,10 @@ function App() {
       await Auth.currentAuthenticatedUser();
       UserCtx.setIsLogged(true);
     } catch (e) {
-      if (e !== "not authenticated") {
-        alert(e);
-      }
+      // if (e !== "not authenticated") {
+      //   console.log(e);
+      // }
+      console.log(e);
     }
 
     UserCtx.setIsLogging(true);
@@ -74,7 +79,6 @@ function App() {
 
   useEffect(() => {
     onLoad();
-    componentDidMount();
   }, []);
 
   const exitFn = () => {
@@ -84,7 +88,7 @@ function App() {
   return (
     <div>
       {/* {!UserCtx.isLogging ? <Navbar /> : ""} */}
-      <div className="h-[calc(100vh)] w-screen bg-zinc-200 ">
+      <div className="h-[calc(100vh)] w-screen">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/notes/new" element={<NewNote />} />

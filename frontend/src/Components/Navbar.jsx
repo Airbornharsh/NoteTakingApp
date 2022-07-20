@@ -32,7 +32,9 @@ const Navbar = () => {
   return (
     <nav className="flex justify-between w-screen px-4 py-2 h-12 bg-[#a431f2]">
       <span>
-        <h1 className="text-[1.5rem] text-white">NOT</h1>
+        <h1 className="text-[1.5rem] text-white logoFont font-extrabold">
+          NOT
+        </h1>
       </span>
       <span className="flex items-center justify-center">
         {UserCtx.isLogged ? (

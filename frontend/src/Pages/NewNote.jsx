@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import SubmittingButton from "../Button/SubmittingButton";
 import { API } from "aws-amplify";
 import s3Upload from "../lib/awsLib";
 import Config from "../utils/Config";
@@ -101,18 +101,11 @@ const NewNote = () => {
               />
             </li>
           </ul>
-          <span
-            className={`flex items-center justify-center font-bold text-white bg-[#a134eb] rounded`}
-          >
-            {isLoading ? (
-              <AiOutlineLoading3Quarters className="ml-2 rotation" />
-            ) : (
-              ""
-            )}
-            <button className="px-2 py-1 " disabled={!validateForm()}>
-              Submit
-            </button>
-          </span>
+          <SubmittingButton
+            name="New Note"
+            loader={isLoading}
+            validate={validateForm}
+          />
         </form>
       </div>
       <BackButton to={"/"} />
