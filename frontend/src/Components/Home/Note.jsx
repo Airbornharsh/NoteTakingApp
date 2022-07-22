@@ -23,7 +23,7 @@ const Note = (props) => {
       id={props.id}
       attachment={props.attachment}
       onDragStart={DragStart}
-      className="w-[16rem] h-[12rem] mr-4 p-2 rounded mb-4 bg-[#a134eb] text-white overflow-hidden relative"
+      className="w-[16rem] h-[12rem] mr-4 p-2 rounded mb-4 bg-[#a134eb] text-white overflow-hidden relative cursor-pointer"
     >
       <h3 className="mb-2 font-semibold">{props.heading}</h3>
       <p className="text-[0.8rem] ">{props.content}</p>

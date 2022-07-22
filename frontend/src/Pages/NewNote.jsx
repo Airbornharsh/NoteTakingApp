@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import SubmittingButton from "../Button/SubmittingButton";
+import SubmittingButton from "../Components/Button/SubmittingButton";
 import { API } from "aws-amplify";
 import s3Upload from "../lib/awsLib";
 import Config from "../utils/Config";

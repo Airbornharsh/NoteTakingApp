@@ -19,6 +19,7 @@ import ResetPassword from "./Pages/Account/ResetPassword";
 import ChangeEmail from "./Pages/Account/ChangeEmail";
 import SignUp from "./Pages/Account/SignUp";
 import SignIn from "./Pages/Account/SignIn";
+import Background from "./Components/Background";
 
 function App() {
   const UserCtx = useContext(Context).user;
@@ -128,6 +129,7 @@ function App() {
           <Route path="/settings/update/email" element={<ChangeEmail />} />
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
+        <Background />
       </div>
     </div>
   );

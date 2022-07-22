@@ -8,7 +8,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import SubmittingButton from "../Button/SubmittingButton";
+import SubmittingButton from "../Components/Button/SubmittingButton";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import config from "../config";
 import BackButton from "../Button/BackButton";

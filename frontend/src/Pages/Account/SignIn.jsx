@@ -4,8 +4,9 @@ import { Auth } from "aws-amplify";
 import Context from "../../Context";
 import FacebookButton from "../../Components/Signing/FacebookButton";
 import BackButton from "../../Button/BackButton";
-import SubmittingButton from "../../Button/SubmittingButton";
+import SubmittingButton from "../../Components/Button/SubmittingButton";
 import Background from "../../Components/Background";
+import GoogleButton from "../../Components/Signing/GoogleButton";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -43,14 +44,15 @@ const SignIn = () => {
   return (
     <div className="h-[calc(100vh-3rem)] w-screen flex items-center justify-center">
       <div className="bg-white min-w-[15rem] rounded-md w-[25rem] max-w-[30rem] z-10">
+        <div className="flex flex-col items-center justify-center mt-12">
+          <GoogleButton />
+          <FacebookButton />
+        </div>
         <form
-          className="flex flex-col items-center py-12"
+          className="flex flex-col items-center pt-3 pb-5"
           onSubmit={handleSubmit}
         >
           <ul>
-            <li className="flex flex-col mb-3">
-              <FacebookButton />
-            </li>
             <li className="flex flex-col">
               <label
                 htmlFor="email"

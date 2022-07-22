@@ -11,6 +11,7 @@ const config = {
     URL: process.env.REACT_APP_API_URL,
   },
   cognito: {
+    COGNITO_DOMAIN: process.env.REACT_APP_COGNITO_DOMAIN,
     REGION: process.env.REACT_APP_REGION,
     USER_POOL_ID: process.env.REACT_APP_USER_POOL_ID,
     APP_CLIENT_ID: process.env.REACT_APP_USER_POOL_CLIENT_ID,

@@ -5,8 +5,8 @@ import Context from "../Context";
 import Config from "../utils/Config";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import s3Upload from "../lib/awsLib";
-import BackButton from "../Button/BackButton";
-import SubmittingButton from "../Button/SubmittingButton";
+import BackButton from "../Components/Button/BackButton";
+import SubmittingButton from "../Components/Button/SubmittingButton";
 
 const NoteDisplay = () => {
   const [heading, setHeading] = useState("");
@@ -117,13 +117,13 @@ const NoteDisplay = () => {
 
   return (
     <div className="h-[100vh]  w-screen flex items-center justify-center">
-      <div className="bg-white min-w-[19rem] rounded-md w-[25rem] z-10">
+      <div className="bg-white min-w-[20rem] rounded-md w-[60vw] z-10">
         <form
           onSubmit={handleSubmit}
           className="flex flex-col items-start py-12 ml-8"
         >
           {/* <a href={`${note.attachmentUrl}`}>ok</a> */}
-          <ul>
+          <ul className="w-[100%]">
             <li className="flex flex-col">
               <label htmlFor="email" className="text-[0.9rem] font-bold pl-1">
                 Heading
@@ -131,7 +131,7 @@ const NoteDisplay = () => {
               <input
                 autoFocus
                 type="text"
-                className="p-2 text-black rounded bg-gray-300 min-w-[15rem] h-10 mb-4"
+                className="p-2 text-black rounded bg-gray-300 h-10 mb-4 w-[90%]"
                 placeholder="Heading"
                 value={heading}
                 onChange={(e) => {
@@ -146,7 +146,7 @@ const NoteDisplay = () => {
               <textarea
                 autoFocus
                 type="textarea"
-                className="p-2 rounded text-black bg-gray-300 h-10 mb-4 min-h-[15rem] w-[20rem]"
+                className="p-2 rounded text-black bg-gray-300 mb-4 min-h-[10rem] max-h-[30rem] h-[30vh] w-[90%]"
                 placeholder="Description"
                 value={content}
                 onChange={(e) => {

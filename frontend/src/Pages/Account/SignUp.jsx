@@ -2,8 +2,10 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import Context from "../../Context/index";
+import FacebookButton from "../../Components/Signing/FacebookButton";
+import GoogleButton from "../../Components/Signing/GoogleButton";
 import BackButton from "../../Button/BackButton";
-import SubmittingButton from "../../Button/SubmittingButton";
+import SubmittingButton from "../../Components/Button/SubmittingButton";
 import Background from "../../Components/Background";
 
 const SignUp = () => {
@@ -107,8 +109,12 @@ const SignUp = () => {
       <div>
         {" "}
         <div className="bg-white min-w-[15rem] rounded-md w-[25rem] max-w-[30rem] z-[2]">
+          <div className="flex flex-col items-center justify-center pt-12 pb-3">
+            <GoogleButton />
+            <FacebookButton />
+          </div>
           <form
-            className="flex flex-col items-center py-12"
+            className="flex flex-col items-center pb-12"
             onSubmit={handleSubmit}
           >
             <ul>

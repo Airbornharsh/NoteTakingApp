@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-import SubmittingButton from "../../Button/SubmittingButton";
+import SubmittingButton from "../../Components/Button/SubmittingButton";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../Button/BackButton";
 import Background from "../../Components/Background";

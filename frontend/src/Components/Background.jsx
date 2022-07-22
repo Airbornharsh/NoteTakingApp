@@ -5,7 +5,7 @@ const Background = () => {
   return (
     <img
       src={back}
-      className="absolute top-0 left-0 w-screen h-[100vh] z-[-1] object-cover"
+      className="absolute top-0 left-0 w-screen h-[100vh] z-[-2] object-cover"
       alt="back"
     />
   );
