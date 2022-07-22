@@ -1,5 +1,5 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Context from "./Context/index";
 import { Auth } from "aws-amplify";
 import config from "./config";
@@ -21,63 +21,63 @@ import SignIn from "./Pages/Account/SignIn";
 import Background from "./Components/Background";
 
 function App() {
+  const [isLogged, setIsLogged] = useState(false);
+  const [isLogging, setIsLogging] = useState(false);
   const UserCtx = useContext(Context).user;
   const NoteCtx = useContext(Context).note;
   const Navigate = useNavigate();
 
-  const onLoad = async () => {
-    try {
-      await Auth.currentSession();
-      UserCtx.setIsLogged(true);
-      Navigate("/");
-    } catch (e) {
-      // if (e !== "No current user"){
-      UserCtx.setIsLogging(true);
-      // }
-    }
-    componentDidMount();
-  };
-
-  const loadFacebookSDK = () => {
-    window.fbAsyncInit = function () {
-      window.FB.init({
-        appId: config.social.FB,
-        autoLogAppEvents: true,
-        xfbml: true,
-        version: "v3.1",
-      });
-    };
-
-    (function (d, s, id) {
-      var js,
-        fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {
-        return;
-      }
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    })(document, "script", "facebook-jssdk");
-  };
-
-  const componentDidMount = async () => {
-    loadFacebookSDK();
-
-    try {
-      await Auth.currentAuthenticatedUser();
-      UserCtx.setIsLogged(true);
-    } catch (e) {
-      // if (e !== "not authenticated") {
-      //   console.log(e);
-      // }
-      console.log(e);
-    }
-
-    UserCtx.setIsLogging(true);
-  };
+  UserCtx.setIsLogged(isLogged);
+  UserCtx.setIsLogging(isLogging);
 
   useEffect(() => {
+    const loadFacebookSDK = () => {
+      window.fbAsyncInit = function () {
+        window.FB.init({
+          appId: config.social.FB,
+          autoLogAppEvents: true,
+          xfbml: true,
+          version: "v3.1",
+        });
+      };
+
+      (function (d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+          return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, "script", "facebook-jssdk");
+    };
+
+    const componentDidMount = async () => {
+      loadFacebookSDK();
+
+      try {
+        await Auth.currentAuthenticatedUser();
+        setIsLogged(true);
+      } catch (e) {
+        // if (e !== "not authenticated") {
+        //   console.log(e);
+        // }
+        console.log(e);
+      }
+      setIsLogging(true);
+    };
+    const onLoad = async () => {
+      try {
+        await Auth.currentSession();
+        setIsLogged(true);
+      } catch (e) {
+        console.log(e);
+      }
+      componentDidMount();
+    };
+
     onLoad();
   }, []);
 
