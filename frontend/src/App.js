@@ -2,7 +2,6 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import Context from "./Context/index";
 import { Auth } from "aws-amplify";
-import back from "./utils/Images/background.jpg";
 import config from "./config";
 import { MdArrowBackIosNew } from "react-icons/md";
 

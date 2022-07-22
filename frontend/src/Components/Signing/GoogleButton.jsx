@@ -1,7 +1,7 @@
 import { Auth } from "aws-amplify";
 import React, { useContext, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { BsGoogle, BsFacebook } from "react-icons/bs";
+import { BsGoogle} from "react-icons/bs";
 import Context from "../../Context";
 
 const GoogleButton = () => {
