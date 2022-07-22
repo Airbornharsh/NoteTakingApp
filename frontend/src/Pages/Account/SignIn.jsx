@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import Context from "../../Context";
 import FacebookButton from "../../Components/Signing/FacebookButton";
-import BackButton from "../../Button/BackButton";
+import BackButton from "../../Components/Button/BackButton";
 import SubmittingButton from "../../Components/Button/SubmittingButton";
 import Background from "../../Components/Background";
 import GoogleButton from "../../Components/Signing/GoogleButton";

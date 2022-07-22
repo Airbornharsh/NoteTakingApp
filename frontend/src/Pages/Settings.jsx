@@ -1,9 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import BackButton from "../Button/BackButton";
+import BackButton from "../Components/Button/BackButton";
 
 const Settings = () => {
-
   return (
     <div className="h-[100vh]  w-screen flex items-center justify-center flex-col">
       <Link to={"/settings/update/email"}>Change Email</Link>

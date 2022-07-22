@@ -11,7 +11,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import SubmittingButton from "../Components/Button/SubmittingButton";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import config from "../config";
-import BackButton from "../Button/BackButton";
+import BackButton from "../Components/Button/BackButton";
 
 const stripePromise = loadStripe(`${config.STRIPE_KEY}`);
 

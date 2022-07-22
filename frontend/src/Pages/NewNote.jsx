@@ -4,7 +4,7 @@ import SubmittingButton from "../Components/Button/SubmittingButton";
 import { API } from "aws-amplify";
 import s3Upload from "../lib/awsLib";
 import Config from "../utils/Config";
-import BackButton from "../Button/BackButton";
+import BackButton from "../Components/Button/BackButton";
 
 const NewNote = () => {
   const [heading, setHeading] = useState("");

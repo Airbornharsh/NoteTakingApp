@@ -4,7 +4,7 @@ import { Auth } from "aws-amplify";
 import Context from "../../Context/index";
 import FacebookButton from "../../Components/Signing/FacebookButton";
 import GoogleButton from "../../Components/Signing/GoogleButton";
-import BackButton from "../../Button/BackButton";
+import BackButton from "../../Components/Button/BackButton";
 import SubmittingButton from "../../Components/Button/SubmittingButton";
 import Background from "../../Components/Background";
 
