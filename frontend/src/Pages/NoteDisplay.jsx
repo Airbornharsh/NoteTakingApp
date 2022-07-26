@@ -10,12 +10,15 @@ import SubmittingButton from "../Components/Button/SubmittingButton";
 
 const NoteDisplay = () => {
   const [heading, setHeading] = useState("");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(" ");
   const [note, setNote] = useState("");
+  const [submittingButtonName, setSubmittingButtonName] =
+    useState("Update Note");
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
-  const file = useRef();
+  const [alertDisplay, setAlertDisplay] = useState("");
+  const file = useRef(null);
   const noteCtx = useContext(Context).note;
   const Navigate = useNavigate();
 
@@ -32,6 +35,7 @@ const NoteDisplay = () => {
         if (attachment) {
           note.attachmentUrl = await Storage.vault.get(attachment);
         }
+
         setIsRunning(false);
         setHeading(heading);
         setContent(content);
@@ -47,10 +51,20 @@ const NoteDisplay = () => {
   }, [noteCtx.id]);
 
   const validateForm = () => {
-    return content.length > 0;
+    if (!(heading.trim().length > 0)) {
+      setAlertDisplay("Heading is Empty");
+      return false;
+    }
+
+    if (!(content.length > 0)) {
+      setAlertDisplay("Description is Empty");
+      return false;
+    }
+    return true;
   };
 
   const handleFileChange = (event) => {
+    setAlertDisplay("");
     file.current = event.target.files[0];
   };
 
@@ -63,8 +77,12 @@ const NoteDisplay = () => {
   const handleSubmit = async (event) => {
     let attachment;
     event.preventDefault();
-    console.log("submitted");
-    if (file.current && file.current.size > Config.MAX_ATTACHMENT_SIZE) {
+
+    if (!validateForm()) {
+      return;
+    }
+
+    if (file.current.value && file.current.size > Config.MAX_ATTACHMENT_SIZE) {
       alert(
         `Please Pick a file Smaller than ${
           Config.MAX_ATTACHMENT_SIZE / 100000
@@ -72,20 +90,27 @@ const NoteDisplay = () => {
       );
       return;
     }
-
+    setSubmittingButtonName("Updating Note");
     setIsLoading(true);
 
     try {
-      attachment = file.current ? await s3Upload(file.current) : null;
+      attachment = file.current
+        ? await s3Upload(file.current)
+        : note.attachment;
       await updateNote({
         heading,
         content,
-        attachment: attachment || note.attachment,
+        attachment,
       });
-      await Storage.remove(note.attachment, { level: "private" });
+      if (attachment !== note.attachment) {
+        console.log("delete");
+        await Storage.remove(note.attachment, { level: "private" });
+      }
       Navigate("/");
     } catch (e) {
       console.log(e);
+      alert("Select a File");
+      setSubmittingButtonName("Update Note");
       setIsLoading(false);
     }
   };
@@ -105,10 +130,9 @@ const NoteDisplay = () => {
     setIsDeleting(true);
 
     try {
-      const response = await deleteNote();
+      await deleteNote();
       await Storage.remove(note.attachment, { level: "private" });
-      console.log(response);
-      Navigate("/");
+      // Navigate("/");
     } catch (e) {
       alert(e);
       setIsDeleting(false);
@@ -135,6 +159,7 @@ const NoteDisplay = () => {
                 placeholder="Heading"
                 value={heading}
                 onChange={(e) => {
+                  setAlertDisplay("");
                   setHeading(e.target.value);
                 }}
               />
@@ -150,6 +175,7 @@ const NoteDisplay = () => {
                 placeholder="Description"
                 value={content}
                 onChange={(e) => {
+                  setAlertDisplay("");
                   setContent(e.target.value);
                 }}
               />
@@ -166,16 +192,16 @@ const NoteDisplay = () => {
               <input
                 ref={file}
                 type="file"
-                className="py-2 pr-2 rounded text-[0.8rem] text-black h-10 mb-4 "
-                placeholder="Description"
+                className="py-2 pr-2 rounded text-[0.8rem] text-black h-10 mb-2 "
                 onChange={handleFileChange}
               />
             </li>
           </ul>
+          <p className="mb-2 ml-2 font-semibold text-red-600">{alertDisplay}</p>
           <SubmittingButton
-            name="Update"
+            name={submittingButtonName}
             loader={isLoading}
-            validate={validateForm}
+            // validate={validateForm}
           />
           <span
             className={`flex items-center justify-center font-bold text-white bg-gray-400 rounded mt-2 hover:bg-red-500`}

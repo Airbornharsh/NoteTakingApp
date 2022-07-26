@@ -9,7 +9,10 @@ import BackButton from "../Components/Button/BackButton";
 const NewNote = () => {
   const [heading, setHeading] = useState("");
   const [content, setContent] = useState("");
+  const [submittingButtonName, setSubmittingButtonName] =
+    useState("Create Note");
   const [isLoading, setIsLoading] = useState(false);
+  const [alertDisplay, setAlertDisplay] = useState("");
   const Navigate = useNavigate();
   const file = useRef(null);
 
@@ -21,6 +24,11 @@ const NewNote = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     if (file.current && file.current.size > Config.MAX_ATTACHMENT_SIZE) {
       alert(
         `Please pick a file smaller than ${
@@ -30,24 +38,38 @@ const NewNote = () => {
       return;
     }
     setIsLoading(true);
+    setSubmittingButtonName("Creating Note");
+
+    console.log(file.current.value);
 
     try {
       const attachment = file.current ? await s3Upload(file.current) : null;
       await createNote({ heading, content, attachment });
       Navigate("/");
     } catch (e) {
-      alert(e.message);
+      console.log(e);
+      alert("Select a File");
       setIsLoading(false);
+      setSubmittingButtonName("Create Note");
     }
   };
 
   const handleFileChange = (event) => {
+    setAlertDisplay("");
     file.current = event.target.files[0];
-    console.log(file.current.size);
   };
 
   const validateForm = () => {
-    return heading.length > 0 && content.length > 0;
+    if (!(heading.trim().length > 0)) {
+      setAlertDisplay("Heading is Empty");
+      return false;
+    }
+
+    if (!(content.trim().length > 0)) {
+      setAlertDisplay("Description is Empty");
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -70,6 +92,7 @@ const NewNote = () => {
                 autoComplete="current-password"
                 value={heading}
                 onChange={(e) => {
+                  setAlertDisplay("");
                   setHeading(e.target.value);
                 }}
               />
@@ -84,6 +107,7 @@ const NewNote = () => {
                 placeholder="Description"
                 value={content}
                 onChange={(e) => {
+                  setAlertDisplay("");
                   setContent(e.target.value);
                 }}
               />
@@ -95,16 +119,16 @@ const NewNote = () => {
               <input
                 ref={file}
                 type="file"
-                className="py-2 pr-2 rounded text-[0.8rem] text-black h-10 mb-4 "
-                placeholder="Description"
+                className="py-2 pr-2 rounded text-[0.8rem] text-black h-10 mb-2 "
                 onChange={handleFileChange}
               />
             </li>
           </ul>
+          <p className="mb-2 ml-2 font-semibold text-red-600">{alertDisplay}</p>
           <SubmittingButton
-            name="New Note"
+            name={submittingButtonName}
             loader={isLoading}
-            validate={validateForm}
+            // validate={validateForm}
           />
         </form>
       </div>

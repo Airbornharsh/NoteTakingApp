@@ -3,11 +3,14 @@ import { Auth } from "aws-amplify";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Context from "../../Context";
 import { BsFacebook } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 const FacebookButton = () => {
   const [isLoading, setIsLoading] = useState();
 
   const UserCtx = useContext(Context).user;
+
+  const Navigate = useNavigate();
 
   // const waitForInit = () => {
   //   return new Promise((res, rej) => {
@@ -32,6 +35,7 @@ const FacebookButton = () => {
 
   const handleFbLogin = () => {
     UserCtx.setIsLogged(true);
+    Navigate("/");
   };
 
   const handleResponse = async (data) => {

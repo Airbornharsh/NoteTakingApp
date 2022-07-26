@@ -9,7 +9,7 @@ const SubmittingButton = (props) => {
       ) : (
         ""
       )}
-      <button className="px-2 py-1 " disabled={!props.validate()}>
+      <button className="px-2 py-1 " disabled={props.loader}>
         {props.name}
       </button>
     </span>

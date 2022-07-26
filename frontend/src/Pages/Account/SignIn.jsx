@@ -32,6 +32,7 @@ const SignIn = () => {
       await Auth.signIn(email, password);
       setIsLoading(false);
       UserCtx.setIsLogged(true);
+      UserCtx.setIsLogging(false);
       Navigate("/");
       alert("Logged In");
     } catch (e) {

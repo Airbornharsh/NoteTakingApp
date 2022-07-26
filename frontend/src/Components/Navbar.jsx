@@ -11,6 +11,7 @@ const Navbar = () => {
   const LogOutFn = async () => {
     await Auth.signOut();
     UserCtx.setIsLogging(true);
+    console.log("Log Out");
     UserCtx.setIsLogged(false);
     Navigate("/signin");
   };

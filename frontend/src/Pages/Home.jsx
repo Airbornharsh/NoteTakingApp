@@ -34,7 +34,7 @@ const Home = () => {
       } catch (e) {
         console.log(e);
         setIsRunning(false);
-        alert(e);
+        // alert(e);
       }
     };
 
@@ -104,7 +104,7 @@ const Home = () => {
     <Fragment>
       <div>{!UserCtx.isLogging ? <Navbar /> : ""}</div>
       {UserCtx.isLogged ? (
-        <div className="flex flex-col justify-start mx-4">
+        <div className="flex flex-col items-start justify-start mx-4">
           <span className="flex items-center mt-12 mb-7">
             <button
               onClick={NewNoteFn}
@@ -123,7 +123,7 @@ const Home = () => {
               <AiFillDelete color={deleteColor} size="2rem" />
             </span>
           </span>
-          <ul className="flex h-[75vh] flex-wrap overflow-auto">
+          <ul className="flex flex-wrap overflow-auto h-[82vh]">
             {notes.map(
               ({ heading, attachment, noteId, content, createdAt }) => {
                 return (
@@ -142,7 +142,9 @@ const Home = () => {
         </div>
       ) : (
         <div className="flex items-center justify-center w-screen h-[80vh] flex-col">
-          <h1 className="text-[4rem] text-[#45235c] font-semibold">Say Yes To Not</h1>
+          <h1 className="text-[4rem] text-[#45235c] font-semibold">
+            Say Yes To Not
+          </h1>
           <span className="m-4">
             <span>
               <button
