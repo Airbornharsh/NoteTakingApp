@@ -10,7 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "animate.css": "^4.1.1",
     "autoprefixer": "^10.4.7",
-    "aws-amplify": "^4.3.26",
+    "aws-amplify": "^4.3.28",
     "aws-cdk": "^2.30.0",
     "aws-cdk-lib": "^2.30.0",
     "bootstrap": "^5.2.0",
