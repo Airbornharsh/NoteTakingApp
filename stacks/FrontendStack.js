@@ -17,7 +17,8 @@ export function FrontendStack({ stack, app }) {
   const site = new ReactStaticSite(stack, "ReactSite", {
     path: "frontend",
     environment: {
-      REACT_APP_COGNITO_DOMAIN: domain.domainName,
+      REACT_APP_COGNITO_DOMAIN:
+        "not-taking-app.netlify.app" || domain.domainName,
       REACT_APP_API_URL: api.customDomainUrl || api.url,
       REACT_APP_REGION: app.region,
       REACT_APP_BUCKET: bucket.bucketName,
