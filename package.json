@@ -1,7 +1,7 @@
 {
   "name": "notes",
   "version": "0.0.0",
-  "private": true, 
+  "private": true,
   "scripts": {
     "start": "sst start",
     "build": "sst build",
