@@ -40,7 +40,7 @@ const NewNote = () => {
     setIsLoading(true);
     setSubmittingButtonName("Creating Note");
 
-    console.log(file.current.value);
+    console.log(file.current);
 
     try {
       const attachment = file.current ? await s3Upload(file.current) : null;
