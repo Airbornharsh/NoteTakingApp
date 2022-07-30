@@ -16,12 +16,7 @@ Amplify.configure({
     identityPoolId: config.cognito.IDENTITY_POOL_ID,
     userPoolWebClientId: config.cognito.APP_CLIENT_ID,
     oauth: {
-      domain: `${
-        "notetakingapp-not" +
-        ".auth." +
-        config.cognito.REGION +
-        ".amazoncognito.com"
-      }`,
+      domain: `https://not-taking-app.netlify.app`,
       scope: [
         "phone",
         "email",
