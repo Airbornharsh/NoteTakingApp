@@ -78,7 +78,7 @@ const FacebookButton = () => {
 
   return (
     <span
-      className={`flex items-center justify-center font-bold text-white bg-[#a134eb] rounded h-10 relative w-[20rem]`}
+      className={`flex items-center justify-center font-bold text-white bg-[#a134eb] rounded h-10 relative w-[20rem] cursor-pointer`}
       onClick={handleClick}
     >
       {isLoading ? <AiOutlineLoading3Quarters className="ml-2 rotation" /> : ""}
