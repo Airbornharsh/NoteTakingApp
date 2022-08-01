@@ -22,17 +22,11 @@ Amplify.configure({
         config.cognito.REGION +
         ".amazoncognito.com"
       }`,
-      scope: [
-        "phone",
-        "email",
-        "profile",
-        "openid",
-        "aws.cognito.signin.user.admin",
-      ],
-      redirectSignIn: "https://not-taking-app.netlify.app",
-      redirectSignOut: "https://not-taking-app.netlify.app",
-      // redirectSignIn: "http://localhost:3000",
-      // redirectSignOut: "http://localhost:3000",
+      scope: ["email", "profile", "openid", "aws.cognito.signin.user.admin"],
+      // redirectSignIn: "https://not-taking-app.netlify.app",
+      // redirectSignOut: "https://not-taking-app.netlify.app",
+      redirectSignIn: "http://localhost:3000",
+      redirectSignOut: "http://localhost:3000",
       responseType: "token",
     },
   },

@@ -1,7 +1,7 @@
 import { Auth } from "aws-amplify";
 import React, { useContext, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { BsGoogle} from "react-icons/bs";
+import { BsGoogle } from "react-icons/bs";
 import Context from "../../Context";
 
 const GoogleButton = () => {
@@ -15,7 +15,10 @@ const GoogleButton = () => {
       await Auth.federatedSignIn({
         provider: "Google",
       });
+      // const ok = await Auth.currentCredentials();
+      // console.log(ok);
       UserCtx.setIsLogged(true);
+      UserCtx.setIsLogging(false);
       setIsLoading(false);
     } catch (e) {
       console.log(e);
