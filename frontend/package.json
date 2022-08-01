@@ -8,10 +8,12 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "aws-amplify": "^4.3.26",
+    "animate.css": "^4.1.1",
+    "autoprefixer": "^10.4.7",
+    "aws-amplify": "^4.3.28",
     "aws-cdk": "^2.30.0",
     "aws-cdk-lib": "^2.30.0",
-    "bootstrap": "^5.1.3",
+    "bootstrap": "^5.2.0",
     "crypto": "^1.0.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
@@ -46,7 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@serverless-stack/static-site-env": "^1.2.36",
+    "@serverless-stack/static-site-env": "^1.4.0",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.4"

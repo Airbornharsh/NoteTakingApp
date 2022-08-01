@@ -5,6 +5,7 @@ const ContextProvider = (props) => {
   const [isLogged, setIsLogged] = useState(false);
   const [isLogging, setIsLogging] = useState(false);
   const [id, setId] = useState("");
+  const [attachment, setAttachment] = useState("");
 
   const setIsLoggedFn = (data) => {
     setIsLogged(data);
@@ -18,6 +19,10 @@ const ContextProvider = (props) => {
     setId(data);
   };
 
+  const setAttachmentFn = (data) => {
+    setAttachment(data);
+  };
+
   const ContextData = {
     user: {
       isLogged: isLogged,
@@ -28,6 +33,8 @@ const ContextProvider = (props) => {
     note: {
       id: id,
       setId: setIdFn,
+      attachment: attachment,
+      setAttachment: setAttachmentFn,
     },
   };
 

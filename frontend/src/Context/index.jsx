@@ -10,6 +10,8 @@ const Context = createContext({
   note: {
     id: "",
     setId: () => {},
+    attachment: "",
+    setAttachment: () => {},
   },
 });
 

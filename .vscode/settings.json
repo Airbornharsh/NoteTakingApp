@@ -1,0 +1,11 @@
+{
+    "serverlessConsole.services": [
+        {
+            "type": "dynamodb",
+            "title": "airbornharsh-notes-Notes",
+            "tableName": "airbornharsh-notes-Notes",
+            "awsProfile": "default",
+            "region": "ap-south-1"
+        }
+    ]
+}

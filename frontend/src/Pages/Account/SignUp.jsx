@@ -1,9 +1,12 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Auth } from "aws-amplify";
-import Context from "../Context/index";
-import back from "./../utils/Images/background.jpg";
+import Context from "../../Context/index";
+import FacebookButton from "../../Components/Signing/FacebookButton";
+import GoogleButton from "../../Components/Signing/GoogleButton";
+import BackButton from "../../Components/Button/BackButton";
+import SubmittingButton from "../../Components/Button/SubmittingButton";
+import Background from "../../Components/Background";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -48,8 +51,8 @@ const SignUp = () => {
     try {
       await Auth.confirmSignUp(email, confirmationCode);
       await Auth.signIn(email, password);
-      userCtx.isLogged(true);
-      userCtx.isLogging(false);
+      userCtx.setIsLogged(true);
+      userCtx.setIsLogging(false);
       setIsLoading(false);
       Navigate("/");
     } catch (e) {
@@ -89,26 +92,14 @@ const SignUp = () => {
             <p className="text-black text-[0.75rem] pb-2">
               Please check your email for the code.
             </p>
-            <span className="flex items-center justify-center font-bold text-white bg-[#a134eb] rounded">
-              {isLoading ? (
-                <AiOutlineLoading3Quarters className="ml-2 rotation" />
-              ) : (
-                ""
-              )}
-              <button
-                className="px-2 py-1 "
-                disabled={!validateConfirmationForm()}
-              >
-                Verify
-              </button>
-            </span>
+            <SubmittingButton
+              name="Verify"
+              loader={isLoading}
+              validate={validateConfirmationForm}
+            />
           </form>
         </div>
-        <img
-          src={back}
-          className="absolute top-0 left-0 w-screen h-[100vh] z-[-1] object-cover"
-          alt="back"
-        />
+        <Background />
       </div>
     );
   };
@@ -117,9 +108,13 @@ const SignUp = () => {
     return (
       <div>
         {" "}
-        <div className="bg-white min-w-[15rem] rounded-md w-[25rem] max-w-[30rem] z-10">
+        <div className="bg-white min-w-[15rem] rounded-md w-[25rem] max-w-[30rem] z-[2]">
+          <div className="flex flex-col items-center justify-center pt-12 pb-3">
+            <GoogleButton />
+            <FacebookButton />
+          </div>
           <form
-            className="flex flex-col items-center py-12"
+            className="flex flex-col items-center pb-12"
             onSubmit={handleSubmit}
           >
             <ul>
@@ -192,16 +187,11 @@ const SignUp = () => {
                 />
               </li>
             </ul>
-            <span className="flex items-center justify-center font-bold text-white bg-[#a134eb] rounded">
-              {isLoading ? (
-                <AiOutlineLoading3Quarters className="ml-2 rotation" />
-              ) : (
-                ""
-              )}
-              <button className="px-2 py-1 " disabled={!validateForm()}>
-                Sign Up
-              </button>
-            </span>
+            <SubmittingButton
+              name="Sign Up"
+              loader={isLoading}
+              validate={validateForm}
+            />
             <p className="text-black text-[0.7rem] pt-2">
               Oops! I have a Account
               <Link to="/signin" className="text-blue-500">
@@ -211,11 +201,8 @@ const SignUp = () => {
             </p>
           </form>
         </div>
-        <img
-          src={back}
-          className="absolute top-0 left-0 w-screen h-[100vh] z-[-1] object-cover"
-          alt="back"
-        />
+        <Background />
+        <BackButton to={"/"} />
       </div>
     );
   };

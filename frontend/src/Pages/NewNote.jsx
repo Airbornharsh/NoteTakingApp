@@ -1,15 +1,18 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { MdArrowBackIosNew } from "react-icons/md";
+import SubmittingButton from "../Components/Button/SubmittingButton";
 import { API } from "aws-amplify";
 import s3Upload from "../lib/awsLib";
 import Config from "../utils/Config";
+import BackButton from "../Components/Button/BackButton";
 
 const NewNote = () => {
   const [heading, setHeading] = useState("");
   const [content, setContent] = useState("");
+  const [submittingButtonName, setSubmittingButtonName] =
+    useState("Create Note");
   const [isLoading, setIsLoading] = useState(false);
+  const [alertDisplay, setAlertDisplay] = useState("");
   const Navigate = useNavigate();
   const file = useRef(null);
 
@@ -21,6 +24,11 @@ const NewNote = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     if (file.current && file.current.size > Config.MAX_ATTACHMENT_SIZE) {
       alert(
         `Please pick a file smaller than ${
@@ -30,28 +38,38 @@ const NewNote = () => {
       return;
     }
     setIsLoading(true);
+    setSubmittingButtonName("Creating Note");
+
+    console.log(file.current.value);
 
     try {
       const attachment = file.current ? await s3Upload(file.current) : null;
       await createNote({ heading, content, attachment });
       Navigate("/");
     } catch (e) {
-      alert(e.message);
+      console.log(e);
+      alert("Select a File");
       setIsLoading(false);
+      setSubmittingButtonName("Create Note");
     }
   };
 
   const handleFileChange = (event) => {
+    setAlertDisplay("");
     file.current = event.target.files[0];
-    console.log(file.current.size);
   };
 
   const validateForm = () => {
-    return heading.length > 0 && content.length > 0;
-  };
+    if (!(heading.trim().length > 0)) {
+      setAlertDisplay("Heading is Empty");
+      return false;
+    }
 
-  const exitFn = () => {
-    Navigate("/");
+    if (!(content.trim().length > 0)) {
+      setAlertDisplay("Description is Empty");
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -74,6 +92,7 @@ const NewNote = () => {
                 autoComplete="current-password"
                 value={heading}
                 onChange={(e) => {
+                  setAlertDisplay("");
                   setHeading(e.target.value);
                 }}
               />
@@ -88,6 +107,7 @@ const NewNote = () => {
                 placeholder="Description"
                 value={content}
                 onChange={(e) => {
+                  setAlertDisplay("");
                   setContent(e.target.value);
                 }}
               />
@@ -99,33 +119,20 @@ const NewNote = () => {
               <input
                 ref={file}
                 type="file"
-                className="py-2 pr-2 rounded text-[0.8rem] text-black h-10 mb-4 "
-                placeholder="Description"
+                className="py-2 pr-2 rounded text-[0.8rem] text-black h-10 mb-2 "
                 onChange={handleFileChange}
               />
             </li>
           </ul>
-          <span
-            className={`flex items-center justify-center font-bold text-white bg-[#a134eb] rounded`}
-          >
-            {isLoading ? (
-              <AiOutlineLoading3Quarters className="ml-2 rotation" />
-            ) : (
-              ""
-            )}
-            <button className="px-2 py-1 " disabled={!validateForm()}>
-              Submit
-            </button>
-          </span>
+          <p className="mb-2 ml-2 font-semibold text-red-600">{alertDisplay}</p>
+          <SubmittingButton
+            name={submittingButtonName}
+            loader={isLoading}
+            // validate={validateForm}
+          />
         </form>
       </div>
-      <span
-        className="absolute bg-[#a134eb] top-2 left-2 flex items-center rounded p-1 text-white cursor-pointer"
-        onClick={exitFn}
-      >
-        <MdArrowBackIosNew />
-        <p className="pb-[0.1rem] pr-[0.4em]">Back</p>
-      </span>
+      <BackButton to={"/"} />
     </div>
   );
 };

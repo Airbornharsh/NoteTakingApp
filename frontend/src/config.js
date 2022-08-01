@@ -3,18 +3,22 @@ const config = {
     "pk_test_51LIOa4SGwJMZZgsD0kDU6E7jKk6rlbISG1XBZWbZ9OX4wJAnqotx3AL2CsymzWkjVRxN8wkJw4ptot2kcPXQCAYK001TcndJ6z",
   // Backend config
   s3: {
-    REGION: process.env.REACT_APP_REGION,
-    BUCKET: process.env.REACT_APP_BUCKET,
+    REGION: "ap-south-1",
+    BUCKET:"airbornharsh-notes-storages-uploadsbucketc4b27cc7-1f3vii59bu926",
   },
   apiGateway: {
-    REGION: process.env.REACT_APP_REGION,
-    URL: process.env.REACT_APP_API_URL,
+    REGION: "ap-south-1",
+    URL:"https://288pu529b5.execute-api.ap-south-1.amazonaws.com",
   },
   cognito: {
-    REGION: process.env.REACT_APP_REGION,
-    USER_POOL_ID: process.env.REACT_APP_USER_POOL_ID,
-    APP_CLIENT_ID: process.env.REACT_APP_USER_POOL_CLIENT_ID,
-    IDENTITY_POOL_ID: process.env.REACT_APP_IDENTITY_POOL_ID,
+    COGNITO_DOMAIN: "notetakingapp-not",
+    REGION: "ap-south-1",
+    USER_POOL_ID: "ap-south-1_8GuiuzecO",
+    APP_CLIENT_ID: "lc37l1g1u81724d2u0lst68dk",
+    IDENTITY_POOL_ID:"ap-south-1:70bdcdb7-73e6-4e40-8cc3-4341a8b918db",
+  },
+  social: {
+    FB: "589302102787090", 
   },
 };
 

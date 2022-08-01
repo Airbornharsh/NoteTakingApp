@@ -4,17 +4,21 @@ import { API, Storage } from "aws-amplify";
 import Context from "../Context";
 import Config from "../utils/Config";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { MdArrowBackIosNew } from "react-icons/md";
 import s3Upload from "../lib/awsLib";
+import BackButton from "../Components/Button/BackButton";
+import SubmittingButton from "../Components/Button/SubmittingButton";
 
 const NoteDisplay = () => {
   const [heading, setHeading] = useState("");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(" ");
   const [note, setNote] = useState("");
+  const [submittingButtonName, setSubmittingButtonName] =
+    useState("Update Note");
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
-  const file = useRef();
+  const [alertDisplay, setAlertDisplay] = useState("");
+  const file = useRef(null);
   const noteCtx = useContext(Context).note;
   const Navigate = useNavigate();
 
@@ -31,6 +35,7 @@ const NoteDisplay = () => {
         if (attachment) {
           note.attachmentUrl = await Storage.vault.get(attachment);
         }
+
         setIsRunning(false);
         setHeading(heading);
         setContent(content);
@@ -46,10 +51,20 @@ const NoteDisplay = () => {
   }, [noteCtx.id]);
 
   const validateForm = () => {
-    return content.length > 0;
+    if (!(heading.trim().length > 0)) {
+      setAlertDisplay("Heading is Empty");
+      return false;
+    }
+
+    if (!(content.length > 0)) {
+      setAlertDisplay("Description is Empty");
+      return false;
+    }
+    return true;
   };
 
   const handleFileChange = (event) => {
+    setAlertDisplay("");
     file.current = event.target.files[0];
   };
 
@@ -62,8 +77,12 @@ const NoteDisplay = () => {
   const handleSubmit = async (event) => {
     let attachment;
     event.preventDefault();
-    console.log("submitted");
-    if (file.current && file.current.size > Config.MAX_ATTACHMENT_SIZE) {
+
+    if (!validateForm()) {
+      return;
+    }
+
+    if (file.current.value && file.current.size > Config.MAX_ATTACHMENT_SIZE) {
       alert(
         `Please Pick a file Smaller than ${
           Config.MAX_ATTACHMENT_SIZE / 100000
@@ -71,20 +90,27 @@ const NoteDisplay = () => {
       );
       return;
     }
-
+    setSubmittingButtonName("Updating Note");
     setIsLoading(true);
 
     try {
-      attachment = file.current ? await s3Upload(file.current) : null;
+      attachment = file.current
+        ? await s3Upload(file.current)
+        : note.attachment;
       await updateNote({
         heading,
         content,
-        attachment: attachment || note.attachment,
+        attachment,
       });
-      await Storage.remove(note.attachment, { level: "private" });
+      if (attachment !== note.attachment) {
+        console.log("delete");
+        await Storage.remove(note.attachment, { level: "private" });
+      }
       Navigate("/");
     } catch (e) {
       console.log(e);
+      alert("Select a File");
+      setSubmittingButtonName("Update Note");
       setIsLoading(false);
     }
   };
@@ -104,29 +130,24 @@ const NoteDisplay = () => {
     setIsDeleting(true);
 
     try {
-      const response = await deleteNote();
+      await deleteNote();
       await Storage.remove(note.attachment, { level: "private" });
-      console.log(response);
-      Navigate("/");
+      // Navigate("/");
     } catch (e) {
       alert(e);
       setIsDeleting(false);
     }
   };
 
-  const exitFn = () => {
-    Navigate("/");
-  };
-
   return (
     <div className="h-[100vh]  w-screen flex items-center justify-center">
-      <div className="bg-white min-w-[19rem] rounded-md w-[25rem] z-10">
+      <div className="bg-white min-w-[20rem] rounded-md w-[60vw] z-10">
         <form
           onSubmit={handleSubmit}
           className="flex flex-col items-start py-12 ml-8"
         >
           {/* <a href={`${note.attachmentUrl}`}>ok</a> */}
-          <ul>
+          <ul className="w-[100%]">
             <li className="flex flex-col">
               <label htmlFor="email" className="text-[0.9rem] font-bold pl-1">
                 Heading
@@ -134,10 +155,11 @@ const NoteDisplay = () => {
               <input
                 autoFocus
                 type="text"
-                className="p-2 text-black rounded bg-gray-300 min-w-[15rem] h-10 mb-4"
+                className="p-2 text-black rounded bg-gray-300 h-10 mb-4 w-[90%]"
                 placeholder="Heading"
                 value={heading}
                 onChange={(e) => {
+                  setAlertDisplay("");
                   setHeading(e.target.value);
                 }}
               />
@@ -149,10 +171,11 @@ const NoteDisplay = () => {
               <textarea
                 autoFocus
                 type="textarea"
-                className="p-2 rounded text-black bg-gray-300 h-10 mb-4 min-h-[15rem] w-[20rem]"
+                className="p-2 rounded text-black bg-gray-300 mb-4 min-h-[10rem] max-h-[30rem] h-[30vh] w-[90%]"
                 placeholder="Description"
                 value={content}
                 onChange={(e) => {
+                  setAlertDisplay("");
                   setContent(e.target.value);
                 }}
               />
@@ -169,24 +192,17 @@ const NoteDisplay = () => {
               <input
                 ref={file}
                 type="file"
-                className="py-2 pr-2 rounded text-[0.8rem] text-black h-10 mb-4 "
-                placeholder="Description"
+                className="py-2 pr-2 rounded text-[0.8rem] text-black h-10 mb-2 "
                 onChange={handleFileChange}
               />
             </li>
           </ul>
-          <span
-            className={`flex items-center justify-center font-bold text-white bg-[#a134eb] rounded`}
-          >
-            {isLoading ? (
-              <AiOutlineLoading3Quarters className="ml-2 rotation" />
-            ) : (
-              ""
-            )}
-            <button className="px-2 py-1 " disabled={!validateForm()}>
-              Save
-            </button>
-          </span>
+          <p className="mb-2 ml-2 font-semibold text-red-600">{alertDisplay}</p>
+          <SubmittingButton
+            name={submittingButtonName}
+            loader={isLoading}
+            // validate={validateForm}
+          />
           <span
             className={`flex items-center justify-center font-bold text-white bg-gray-400 rounded mt-2 hover:bg-red-500`}
           >
@@ -201,13 +217,7 @@ const NoteDisplay = () => {
           </span>
         </form>
       </div>
-      <span
-        className="absolute bg-[#a134eb] top-2 left-2 flex items-center rounded p-1 text-white cursor-pointer"
-        onClick={exitFn}
-      >
-        <MdArrowBackIosNew />
-        <p className="pb-[0.1rem]">Back</p>
-      </span>
+      <BackButton to={"/"} />
       {isRunning && (
         <div className="fixed top-0 left-0 h-[100vh] w-screen bg-[rgba(0,0,0,0.3)] z-30 flex justify-center items-center">
           <span className="loader">

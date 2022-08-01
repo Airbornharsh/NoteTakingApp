@@ -8,9 +8,10 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { MdArrowBackIosNew } from "react-icons/md";
+import SubmittingButton from "../Components/Button/SubmittingButton";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import config from "../config";
+import BackButton from "../Components/Button/BackButton";
 
 const stripePromise = loadStripe(`${config.STRIPE_KEY}`);
 
@@ -72,10 +73,6 @@ const Child = () => {
     }
   };
 
-  const exitFn = () => {
-    Navigate("/settings");
-  };
-
   return (
     <div className="h-[100vh]  w-screen flex items-center justify-center">
       <div className="bg-white min-w-[19rem] rounded-md w-[25rem] z-10">
@@ -128,27 +125,14 @@ const Child = () => {
               />
             </li>
           </ul>
-          <span
-            className={`flex items-center justify-center font-bold text-white bg-[#a134eb] rounded`}
-          >
-            {isLoading ? (
-              <AiOutlineLoading3Quarters className="ml-2 rotation" />
-            ) : (
-              ""
-            )}
-            <button className="px-2 py-1 " disabled={!validateForm()}>
-              Submit
-            </button>
-          </span>
+          <SubmittingButton
+            name="Submit"
+            loader={isLoading}
+            validate={validateForm}
+          />
         </form>
       </div>
-      <span
-        className="absolute bg-[#a134eb] top-2 left-2 flex items-center rounded p-1 text-white cursor-pointer"
-        onClick={exitFn}
-      >
-        <MdArrowBackIosNew />
-        <p className="pb-[0.1rem] pr-[0.4em]">Back</p>
-      </span>
+      <BackButton to={"/settings"} />
       {isProcessing && (
         <div className="fixed top-0 left-0 h-[100vh] w-screen bg-[rgba(0,0,0,0.3)] z-30 flex justify-center items-center">
           <span className="loader">

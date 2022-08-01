@@ -15,6 +15,20 @@ Amplify.configure({
     userPoolId: config.cognito.USER_POOL_ID,
     identityPoolId: config.cognito.IDENTITY_POOL_ID,
     userPoolWebClientId: config.cognito.APP_CLIENT_ID,
+    oauth: {
+      domain: `${
+        "notetakingapp-not" +
+        ".auth." +
+        config.cognito.REGION +
+        ".amazoncognito.com"
+      }`,
+      scope: ["email", "profile", "openid", "aws.cognito.signin.user.admin"],
+      // redirectSignIn: "https://not-taking-app.netlify.app",
+      // redirectSignOut: "https://not-taking-app.netlify.app",
+      redirectSignIn: "http://localhost:3000",
+      redirectSignOut: "http://localhost:3000",
+      responseType: "token",
+    },
   },
   Storage: {
     region: config.s3.REGION,
@@ -33,6 +47,7 @@ Amplify.configure({
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
     <ContextProvider>
