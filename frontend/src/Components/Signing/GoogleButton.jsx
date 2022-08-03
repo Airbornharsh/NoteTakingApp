@@ -15,8 +15,6 @@ const GoogleButton = () => {
       await Auth.federatedSignIn({
         provider: "Google",
       });
-      // const ok = await Auth.currentCredentials();
-      // console.log(ok);
       UserCtx.setIsLogged(true);
       UserCtx.setIsLogging(false);
       setIsLoading(false);

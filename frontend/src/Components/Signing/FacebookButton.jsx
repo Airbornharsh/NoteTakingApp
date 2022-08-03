@@ -10,8 +10,6 @@ const FacebookButton = () => {
 
   const UserCtx = useContext(Context).user;
 
-  const Navigate = useNavigate();
-
   // const waitForInit = () => {
   //   return new Promise((res, rej) => {
   //     const hasFbLoaded = () => {
@@ -29,33 +27,30 @@ const FacebookButton = () => {
   //   setIsLoading(false);
   // };
 
-  const handleError = (error) => {
-    console.log(error);
-  };
-
-  const handleFbLogin = () => {
-    UserCtx.setIsLogged(true);
-    Navigate("/");
-  };
+  const Navigate = useNavigate();
 
   const handleResponse = async (data) => {
     const { email, accessToken, expiresIn } = data;
     const expires_at = expiresIn * 1000000 + new Date().getTime();
     const user = { email };
 
+    console.log(email);
+
     setIsLoading(true);
 
     try {
-      const response = await Auth.federatedSignIn(
+      await Auth.federatedSignIn(
         "facebook",
         { token: accessToken, expires_at },
         user
       );
+      console.log("Logged");
       setIsLoading(false);
-      handleFbLogin(response);
+      UserCtx.setIsLogged(true);
+      Navigate("/");
     } catch (e) {
       setIsLoading(false);
-      handleError(e);
+      console.log(e);
     }
   };
 
@@ -64,7 +59,7 @@ const FacebookButton = () => {
       console.log(response);
       handleResponse(response.authResponse);
     } else {
-      handleError(response);
+      console.log(response);
     }
   };
 
@@ -75,6 +70,22 @@ const FacebookButton = () => {
   const handleClick = () => {
     window.FB.login(checkLoginState, { scope: "public_profile,email" });
   };
+
+  // const handleClick = async () => {
+  //   setIsLoading(true);
+
+  //   try {
+  //     const response = await Auth.federatedSignIn({ provider: "Facebook" });
+  //     console.log(response);
+  //     setIsLoading(false);
+  //     UserCtx.setIsLogged(true);
+  //     UserCtx.setIsLogging(false);
+  //     // Navigate("/");
+  //   } catch (e) {
+  //     setIsLoading(false);
+  //     console.log(e);
+  //   }
+  // };
 
   return (
     <span

@@ -27,9 +27,6 @@ function App() {
   const NoteCtx = useContext(Context).note;
   const Navigate = useNavigate();
 
-  UserCtx.setIsLogged(isLogged);
-  UserCtx.setIsLogging(isLogging);
-
   useEffect(() => {
     const loadFacebookSDK = () => {
       window.fbAsyncInit = function () {
@@ -54,32 +51,21 @@ function App() {
       })(document, "script", "facebook-jssdk");
     };
 
-    const componentDidMount = async () => {
+    const onLoad = async () => {
       loadFacebookSDK();
 
       try {
         await Auth.currentAuthenticatedUser();
         setIsLogged(true);
       } catch (e) {
-        // if (e !== "not authenticated") {
-        //   console.log(e);
-        // }
         console.log(e);
       }
       setIsLogging(true);
     };
-    const onLoad = async () => {
-      try {
-        await Auth.currentSession();
-        setIsLogged(true);
-      } catch (e) {
-        console.log(e);
-      }
-      componentDidMount();
-    };
 
     onLoad();
-  }, []);
+    UserCtx.setIsLogged(isLogged);
+  }, [UserCtx, isLogged, isLogging]);
 
   const exitFn = () => {
     Navigate("/");

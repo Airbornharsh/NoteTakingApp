@@ -39,6 +39,7 @@ export function ApiStack({ stack, app }) {
       "PUT /notes/{id}": "functions/update.main",
       "DELETE /notes/{id}": "functions/delete.main",
       "POST /billing": "functions/billing.main",
+      "POST /sendEmail": "functions/ses_sendemail.main",
     },
   });
 

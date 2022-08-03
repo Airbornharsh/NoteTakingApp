@@ -8,6 +8,8 @@ export function AuthStack({ stack, app }) {
   const { bucket } = use(StorageStack);
   const { api } = use(ApiStack);
 
+  console.log("log");
+
   const auth = new Auth(stack, "Auth", {
     login: ["email"],
     identityPoolFederation: {
@@ -67,12 +69,12 @@ export function AuthStack({ stack, app }) {
     }
   );
 
-  auth.cdk.userPoolClient.node.addDependency(googleProvider,facebookProvider);
+  auth.cdk.userPoolClient.node.addDependency(googleProvider, facebookProvider);
 
   auth.attachPermissionsForAuthUsers([
     api,
     new iam.PolicyStatement({
-      actions: ["s3:*"],
+      actions: ["s3:*", "ses:SendEmail", "ses:SendRawEmail"],
       effect: iam.Effect.ALLOW,
       resources: [
         bucket.bucketArn + "/private/${cognito-identity.amazonaws.com:sub}/*",

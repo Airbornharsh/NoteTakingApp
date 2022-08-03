@@ -22,6 +22,7 @@
     "services"
   ],
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.141.0",
     "amplify": "^0.0.11",
     "crypto": "^1.0.1",
     "crypto-browserify": "^3.12.0",
