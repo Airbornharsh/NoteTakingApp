@@ -8,8 +8,6 @@ export function AuthStack({ stack, app }) {
   const { bucket } = use(StorageStack);
   const { api } = use(ApiStack);
 
-  console.log("log");
-
   const auth = new Auth(stack, "Auth", {
     login: ["email"],
     identityPoolFederation: {

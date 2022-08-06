@@ -113,7 +113,7 @@ function App() {
           <Route path="/settings/reset/password" element={<ResetPassword />} />
           <Route path="/settings/update/email" element={<ChangeEmail />} />
           <Route path="*" element={<div>404 Not Found</div>} />
-        </Routes>
+        </Routes> 
         <Background />
       </div>
     </div>

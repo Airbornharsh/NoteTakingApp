@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Auth } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
 import Context from "../../Context/index";
 import FacebookButton from "../../Components/Signing/FacebookButton";
 import GoogleButton from "../../Components/Signing/GoogleButton";
@@ -51,12 +51,20 @@ const SignUp = () => {
     try {
       await Auth.confirmSignUp(email, confirmationCode);
       await Auth.signIn(email, password);
+      // const response = await API.post("notes", "/sendEmail", {
+      //   body: {
+      //     receiverAddress: email,
+      //     name: name,
+      //   },
+      // });
+      // console.log(response);
       userCtx.setIsLogged(true);
       userCtx.setIsLogging(false);
       setIsLoading(false);
       Navigate("/");
     } catch (e) {
-      alert(e);
+      // alert(e);
+      console.log(e);
       setIsLoading(false);
     }
   };
