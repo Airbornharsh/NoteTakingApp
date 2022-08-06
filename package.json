@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "sst start",
+    "dev": "sst start",
     "build": "sst build",
     "deploy": "sst deploy --stage=production",
     "remove": "sst remove",
@@ -22,6 +23,7 @@
     "services"
   ],
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.141.0",
     "amplify": "^0.0.11",
     "crypto": "^1.0.1",
     "crypto-browserify": "^3.12.0",

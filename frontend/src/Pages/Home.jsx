@@ -14,8 +14,6 @@ const Home = () => {
   // const NoteCtx = useContext(Context).note;
   const Navigate = useNavigate();
 
-  UserCtx.setIsLogging(false);
-
   const NewNoteFn = () => {
     Navigate("/notes/new");
   };
@@ -38,8 +36,9 @@ const Home = () => {
       }
     };
 
+    UserCtx.setIsLogging(false);
     onLoad();
-  }, [UserCtx.isLogged]);
+  }, [UserCtx, UserCtx.isLogged]);
 
   const loadNotes = () => {
     return API.get("notes", "/notes");
@@ -176,8 +175,8 @@ const Home = () => {
           </span>
         </div>
       )}
-      <div class="wrapper ">
-        <ul class="bg-bubbles">
+      <div className="wrapper ">
+        <ul className="bg-bubbles">
           <li></li>
           <li></li>
           <li></li>
