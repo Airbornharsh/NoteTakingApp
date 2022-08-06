@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Auth, API } from "aws-amplify";
+import { Auth } from "aws-amplify";
 import Context from "../../Context/index";
 import FacebookButton from "../../Components/Signing/FacebookButton";
 import GoogleButton from "../../Components/Signing/GoogleButton";
