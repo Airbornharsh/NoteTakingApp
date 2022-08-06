@@ -30,7 +30,7 @@ function sendEmail(to, body, completedCallback) {
         },
       },
       Subject: {
-        Data: "Cognito Identity Provider registration completed",
+        Data: "WELCOME TO NOT",
       },
     },
 
