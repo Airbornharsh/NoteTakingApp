@@ -69,7 +69,7 @@ export function AuthStack({ stack, app }) {
 
   auth.cdk.userPoolClient.node.addDependency(googleProvider, facebookProvider);
 
-  auth.attachPermissionsForAuthUsers([
+  auth.attachPermissionsForAuthUsers(stack,[
     api,
     new iam.PolicyStatement({
       actions: ["s3:*", "ses:SendEmail", "ses:SendRawEmail"],

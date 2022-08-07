@@ -22,10 +22,10 @@ export const adminCreateUser = async ({
         Name: 'given_name',
         Value: givenName,
       },
-      {
-        Name: 'family_name',
-        Value: familyName,
-      },
+      // {
+      //   Name: 'family_name',
+      //   Value: familyName,
+      // },
       {
         Name: 'email',
         Value: email,
