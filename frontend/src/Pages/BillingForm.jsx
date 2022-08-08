@@ -38,10 +38,12 @@ const BillingForm = () => {
     setIsLoading(true);
 
     try {
+      console.log("before");
       const response = await billUser({
         storage: storage,
         emailId: UserCtx.userId,
       });
+      console.log("started");
       const options = {
         key: config.RAZORPAY_KEY_ID,
         amount: response.amount,

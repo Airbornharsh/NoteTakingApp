@@ -22,8 +22,17 @@ export function StorageStack({ stack, app }) {
     primaryIndex: { partitionKey: "userId", sortKey: "noteId" },
   });
 
+  const detailTable = new Table(stack, "Detail", {
+    fields: {
+      emailId: "string",
+      orderId: "string",
+    },
+    primaryIndex: { partitionKey: "emailId", sortKey: "orderId" },
+  });
+
   return {
     table,
     bucket,
+    detailTable,
   };
 }

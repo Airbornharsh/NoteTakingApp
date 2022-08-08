@@ -19,5 +19,5 @@ export default function main(app) {
     .stack(AuthStack)
     .stack(FrontendStack)
     .stack(SignUpEmailStack)
-    .stack(UserLinkStack);
+    .stack(UserLinkStack); 
 }

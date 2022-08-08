@@ -15,7 +15,7 @@ export const main = handler(async (event) => {
   });
 
   const options = {
-    amount: amount,
+    amount: 100,
     currency: "INR",
     receipt: "receipt1",
     notes: description,
@@ -37,12 +37,9 @@ export const main = handler(async (event) => {
     return;
   });
   if (data.orderId) {
-    // await orderPut({ emailId, orderId: data.orderId });
-    console.log("BILLING");
-
-    // const data1 = await orderPut({ emailId, orderId: data.orderId });
-    // const data1 = await orderGet({ emailId });
-    // console.log(data1);
+    console.log(data.orderId);
+    const data1 = await orderPut({ emailId, orderIdValue: data.orderId });
+    console.log(data1);
   }
 
   return data;

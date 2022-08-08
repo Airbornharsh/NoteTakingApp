@@ -1,24 +1,17 @@
-// Load the AWS SDK for Node.js
-import AWS from "aws-sdk";
+import dynamodb from "../../util/dynamodb";
+import handler from "../../util/handler";
 
-export async function orderPut({ emailId, orderId }) {
+export const orderPut = handler(async ({ emailId, orderIdValue }) => {
   console.log("BILLING");
-  const db = new AWS.DynamoDB.DocumentClient();
 
   const params = {
-    TableName: "Order",
+    TableName: "airbornharsh-notes-Detail",
     Item: {
-      // emailId: emailId,
-      // orderId: orderId,
+      emailId: emailId,
+      orderId: "razorpay_order_id_value_notes",
+      orderIdValue: orderIdValue,
     },
   };
 
-  db.put(params)
-    .promise()
-    .then((response) => {
-      console.log("SUCCESS", response);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
+  await dynamodb.put(params);
+});
