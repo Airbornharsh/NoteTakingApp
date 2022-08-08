@@ -58,18 +58,16 @@ export function AuthStack({ stack, app }) {
       clientId: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       userPool: auth.cdk.userPool,
-      scopes: ["profile", "email", "openid"],
       attributeMapping: {
         email: cognito.ProviderAttribute.FACEBOOK_EMAIL,
-        givenName: cognito.ProviderAttribute.FACEBOOK_FIRST_NAME,
-        familyName: cognito.ProviderAttribute.FACEBOOK_LAST_NAME,
+        givenName: cognito.ProviderAttribute.FACEBOOK_NAME,
       },
     }
   );
 
   auth.cdk.userPoolClient.node.addDependency(googleProvider, facebookProvider);
 
-  auth.attachPermissionsForAuthUsers(stack,[
+  auth.attachPermissionsForAuthUsers(stack, [
     api,
     new iam.PolicyStatement({
       actions: ["s3:*", "ses:SendEmail", "ses:SendRawEmail"],

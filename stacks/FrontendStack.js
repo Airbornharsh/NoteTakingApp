@@ -29,5 +29,6 @@ export function FrontendStack({ stack, app }) {
 
   stack.addOutputs({
     SiteUrl: site.url,
+    auth_domain: `https://${domain.domainName}.auth.${app.region}.amazoncognito.com`,
   });
 }

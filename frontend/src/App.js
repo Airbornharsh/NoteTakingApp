@@ -2,7 +2,6 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import Context from "./Context/index";
 import { Auth } from "aws-amplify";
-import config from "./config";
 import { MdArrowBackIosNew } from "react-icons/md";
 
 //Pages
@@ -28,34 +27,10 @@ function App() {
   const Navigate = useNavigate();
 
   useEffect(() => {
-    const loadFacebookSDK = () => {
-      window.fbAsyncInit = function () {
-        window.FB.init({
-          appId: config.social.FB,
-          autoLogAppEvents: true,
-          xfbml: true,
-          version: "v3.1",
-        });
-      };
-
-      (function (d, s, id) {
-        var js,
-          fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-          return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      })(document, "script", "facebook-jssdk");
-    };
-
     const onLoad = async () => {
-      loadFacebookSDK();
-
       try {
-        await Auth.currentAuthenticatedUser();
+        const data = await Auth.currentAuthenticatedUser();
+        UserCtx.setUserId(data.attributes.email);
         setIsLogged(true);
       } catch (e) {
         console.log(e);
@@ -113,7 +88,7 @@ function App() {
           <Route path="/settings/reset/password" element={<ResetPassword />} />
           <Route path="/settings/update/email" element={<ChangeEmail />} />
           <Route path="*" element={<div>404 Not Found</div>} />
-        </Routes> 
+        </Routes>
         <Background />
       </div>
     </div>
