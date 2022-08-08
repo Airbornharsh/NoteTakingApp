@@ -5,10 +5,10 @@ const ses = new aws.SES();
 export const handler = (event, context, callback) => {
   console.log(event);
 
-  if (event.request.userAttributes.email) {
+  if (event.email) {
     sendEmail(
-      event.request.userAttributes.email,
-      "Welcome to Not-Taking-App",
+      event.email,
+      `Your Password: ${event.password}`,
       function (status) {
         callback(null, event);
       }

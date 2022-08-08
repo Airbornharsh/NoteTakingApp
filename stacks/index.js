@@ -3,6 +3,7 @@ import { AuthStack } from "./AuthStack";
 import { FrontendStack } from "./FrontendStack";
 import { SignUpEmailStack } from "./SignUpEmailStack";
 import { StorageStack } from "./StorageStack";
+import { UserLinkStack } from "./UserLinkStack";
 
 export default function main(app) {
   app.setDefaultFunctionProps({
@@ -17,5 +18,6 @@ export default function main(app) {
     .stack(ApiStack)
     .stack(AuthStack)
     .stack(FrontendStack)
-    .stack(SignUpEmailStack);
+    .stack(SignUpEmailStack)
+    .stack(UserLinkStack);
 }

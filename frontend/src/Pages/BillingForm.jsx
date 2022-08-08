@@ -1,40 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { API } from "aws-amplify";
+import "https://checkout.razorpay.com/v1/checkout.js";
 import { useNavigate } from "react-router-dom";
-import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import SubmittingButton from "../Components/Button/SubmittingButton";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import config from "../config";
 import BackButton from "../Components/Button/BackButton";
+import Context from "../Context";
 
-const stripePromise = loadStripe(`${config.STRIPE_KEY}`);
-
-const BillingForm = (props) => (
-  <Elements stripe={stripePromise}>
-    <Child {...props} />
-  </Elements>
-);
-
-const Child = () => {
+const BillingForm = () => {
   const Navigate = useNavigate();
-  const stripe = useStripe();
-  const elements = useElements();
   const [name, setName] = useState("");
   const [storage, setStorage] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [isCardComplete, setIsCardComplete] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const UserCtx = useContext(Context).user;
+
+  // console.log(window.Razorpay);
 
   const validateForm = () => {
-    return (
-      stripe && elements && name !== "" && storage !== "" && isCardComplete
-    );
+    return name !== "" && storage !== "";
   };
 
   const billUser = (details) => {
@@ -43,29 +26,72 @@ const Child = () => {
     });
   };
 
+  const billVerify = (details) => {
+    return API.post("notes", "/billing/verify", {
+      body: details,
+    });
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!stripe || !elements) {
-      return;
-    }
-
-    setIsProcessing(true);
-    const cardElement = elements.getElement(CardElement);
-    const { token, error } = await stripe.createToken(cardElement);
-
-    setIsProcessing(false);
-
-    if (error) {
-      alert(error);
-      return;
-    }
     setIsLoading(true);
 
     try {
-      await billUser({ storage: storage, source: token.id });
-      alert("Your Card Has Been Charged Successfully");
-      Navigate("/");
+      const response = await billUser({
+        storage: storage,
+        emailId: UserCtx.userId,
+      });
+      const options = {
+        key: config.RAZORPAY_KEY_ID,
+        amount: response.amount,
+        currency: "INR",
+        name: "Acme Corp",
+        description: "Test Transaction",
+        // image: "https://example.com/your_logo",
+        order_id: response.orderId,
+        handler: function (response) {
+          alert(response.razorpay_payment_id);
+          alert(response.razorpay_order_id);
+          alert(response.razorpay_signature);
+          response.emailId = UserCtx.userId;
+          const verify = async () => {
+            console.log("EARLY");
+            try {
+              const res = await billVerify(response);
+              console.log(res);
+              alert(res);
+              Navigate("/");
+            } catch (e) {
+              console.log(e);
+            }
+          };
+          verify();
+        },
+        prefill: {
+          name: "name",
+          email: "Harsh@example.com",
+          contact: "9999999999",
+        },
+        notes: {
+          address: "Razorpay Corporate Office",
+        },
+        theme: {
+          color: "#bf21eb",
+        },
+      };
+      var rzp1 = new window.Razorpay(options);
+      rzp1.on("payment.failed", function (response) {
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+      });
+      const fields = rzp1.open();
+      console.log(fields);
     } catch (e) {
       console.log(e.message);
       console.log(e);
@@ -118,11 +144,6 @@ const Child = () => {
               >
                 Card Info
               </label>
-              <CardElement
-                onChange={(e) => {
-                  setIsCardComplete(e.complete);
-                }}
-              />
             </li>
           </ul>
           <SubmittingButton
@@ -133,17 +154,6 @@ const Child = () => {
         </form>
       </div>
       <BackButton to={"/settings"} />
-      {isProcessing && (
-        <div className="fixed top-0 left-0 h-[100vh] w-screen bg-[rgba(0,0,0,0.3)] z-30 flex justify-center items-center">
-          <span className="loader">
-            <AiOutlineLoading3Quarters
-              size="5rem"
-              color="rgba(0,0,0,0.7)"
-              className="ml-2 rotation"
-            />
-          </span>
-        </div>
-      )}
     </div>
   );
 };

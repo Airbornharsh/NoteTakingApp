@@ -6,6 +6,8 @@ const Context = createContext({
     setIsLogged: () => {},
     isLogging: false,
     setIsLogging: () => {},
+    userId: "",
+    setUserId: () => {},
   },
   note: {
     id: "",
