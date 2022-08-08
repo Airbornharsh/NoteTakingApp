@@ -1,27 +1,18 @@
-// Load the AWS SDK for Node.js
-import AWS from "aws-sdk";
 import handler from "../../util/handler";
+import dynamoDb from "../../util/dynamodb";
 
-const db = new AWS.DynamoDB();
-
-export const orderGet = handler(async (emailId) => {
+export const orderGet = handler(async ({ emailId }) => {
   const params = {
-    TableName: process.env.TABLE_NAME,
+    TableName: "airbornharsh-notes-Detail",
     Key: {
       emailId: emailId,
+      orderId: "razorpay_order_id_value_notes",
     },
   };
 
-  const returningData = {};
+  const result = await dynamoDb.get(params);
 
-  // Call DynamoDB to add the item to the table
-  db.getItem(params, function (err, data) {
-    if (err) {
-      console.log("Error143", err);
-    } else {
-      console.log("Success", data);
-      returningData.data = data;
-    }
-  });
-  return returningData;
+  console.log(result);
+
+  return result.Item;
 });

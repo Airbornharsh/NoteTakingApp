@@ -1,5 +1,6 @@
 import handler from "../../util/handler";
 import crypto from "crypto";
+import { orderGet } from "./orderGet";
 
 export const main = handler(async (event) => {
   const {
@@ -9,15 +10,18 @@ export const main = handler(async (event) => {
     emailId,
   } = JSON.parse(event.body);
 
+  const data = await orderGet({ emailId });
+  const orderId = JSON.parse(data.body).orderIdValue;
 
-  // generated_signature = hmac_sha256(
-  //   order_id + "|" + razorpay_payment_id,
-  //   process.env.RAZORPAY_SECRET_KEY
-  // );
+  const generated_signature = crypto
+    .createHmac("sha256", process.env.RAZORPAY_SECRET_KEY)
+    .update(orderId + "|" + razorpay_payment_id)
+    .digest("hex");
 
-  // if (generated_signature == razorpay_signature) {
-  //   console.log("SUCCESS");
-  // }
+  if (generated_signature == razorpay_signature) {
+    console.log("SUCCESS");
+    return { signatureIsValid: true };
+  }
 
-  return { signatureIsValid: true };
+  return { signatureIsValid: false };
 });
