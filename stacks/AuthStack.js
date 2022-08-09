@@ -24,8 +24,14 @@ export function AuthStack({ stack, app }) {
           cognito.UserPoolClientIdentityProvider.FACEBOOK,
         ],
         oAuth: {
-          callbackUrls: ["http://localhost:3000"],
-          logoutUrls: ["http://localhost:3000"],
+          callbackUrls: [
+            "https://not-taking-app.netlify.app",
+            "http://localhost:3000",
+          ],
+          logoutUrls: [
+            "https://not-taking-app.netlify.app",
+            "http://localhost:3000",
+          ],
         },
       },
     },
