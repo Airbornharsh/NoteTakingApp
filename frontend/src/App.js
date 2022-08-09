@@ -30,7 +30,9 @@ function App() {
     const onLoad = async () => {
       try {
         const data = await Auth.currentAuthenticatedUser();
+        await 
         UserCtx.setUserId(data.attributes.email);
+        console.log(data);
         setIsLogged(true);
       } catch (e) {
         console.log(e);

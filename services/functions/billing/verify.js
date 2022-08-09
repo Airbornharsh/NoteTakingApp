@@ -1,6 +1,7 @@
 import handler from "../../util/handler";
 import crypto from "crypto";
 import { orderGet } from "./orderGet";
+import { orderPutAny } from "./orderPutAny";
 
 export const main = handler(async (event) => {
   const {
@@ -20,6 +21,7 @@ export const main = handler(async (event) => {
 
   if (generated_signature == razorpay_signature) {
     console.log("SUCCESS");
+    await orderPutAny({ emailId, orderIdValue: orderId });
     return { signatureIsValid: true };
   }
 

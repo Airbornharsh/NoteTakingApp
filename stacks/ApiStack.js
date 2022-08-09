@@ -24,7 +24,7 @@ export function ApiStack({ stack, app }) {
       "POST /billing": "functions/billing/index.main",
       "POST /billing/verify": "functions/billing/verify.main",
     },
-  }); 
+  });
 
   stack.addOutputs({
     ApiEndpoint: api.url,
