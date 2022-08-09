@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { API } from "aws-amplify";
-import "https://checkout.razorpay.com/v1/checkout.js";
 import { useNavigate } from "react-router-dom";
 import SubmittingButton from "../Components/Button/SubmittingButton";
 import config from "../config";
